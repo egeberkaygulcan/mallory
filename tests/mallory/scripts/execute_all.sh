@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # ./execute_all.sh 2 35 /host/tests/scripts/logs
+# ./execute_all.sh 14400 3 5 /host/tests/scripts/logs event
 
 # Get input parameters
 exec_num=$1         # The number of executions
@@ -34,7 +35,7 @@ else
     exit 1
 fi
 
-subjects=("dqlite" "braft" "redisraft" "tikv" "scylladb" "mongodb")
+# subjects=("dqlite" "braft" "redisraft" "tikv" "scylladb" "mongodb")
 
 # Create the log directory if it does not exist
 rm -rf "$log_dir"

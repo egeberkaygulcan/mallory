@@ -100,88 +100,88 @@ ENV CC=/opt/instrumentor/llvm_mode/afl-clang-fast
 # the compilation related to a given test subject MUST run within the same RUN instruction.
 
 # Baidu Raft
-WORKDIR /opt/fs/
-ENV CXX=/opt/instrumentor/llvm_mode/afl-clang-fast++
-ENV CC=/opt/instrumentor/llvm_mode/afl-clang-fast
-# braft: 1ef36c2(Mar17,2023)
-RUN git clone -b newer-jepsen-testing https://github.com/dranov/braft.git
-WORKDIR /opt/fs/braft
-RUN python3 /opt/instrumentor/tell_instr_targets.py --input ./src --output .
-RUN mkdir bld && cd bld && cmake -DBRPC_WITH_GLOG=ON .. \
-    && export TARGETS_FILE=/opt/fs/braft/instr-targets.txt \
-    && export AFL_USE_ASAN=1 \
-    && make -j$(getconf _NPROCESSORS_ONLN) \
-    # install BRaft & braft_cli
-    && cp -r /opt/fs/braft/bld/output/* / \
-    && cp -r /opt/fs/braft/bld/tools/output/* / \
-    && cd /opt/fs/braft/example/atomic \
-    && cmake . && export TARGETS_FILE=/opt/fs/raft-c/instr-targets.txt \
-    && export AFL_USE_ASAN=1 \
-    && make -j$(getconf _NPROCESSORS_ONLN)
-RUN mv /opt/instrumentor/BB2ID.txt /opt/instrumentor/braft_CodeLocToBBID.txt || true
-COPY jepsen/tests/mallory/braft/resources/jepsen_control.sh /opt/fs/braft/example/atomic/jepsen_control.sh
+# WORKDIR /opt/fs/
+# ENV CXX=/opt/instrumentor/llvm_mode/afl-clang-fast++
+# ENV CC=/opt/instrumentor/llvm_mode/afl-clang-fast
+# # braft: 1ef36c2(Mar17,2023)
+# RUN git clone -b newer-jepsen-testing https://github.com/dranov/braft.git
+# WORKDIR /opt/fs/braft
+# RUN python3 /opt/instrumentor/tell_instr_targets.py --input ./src --output .
+# RUN mkdir bld && cd bld && cmake -DBRPC_WITH_GLOG=ON .. \
+#     && export TARGETS_FILE=/opt/fs/braft/instr-targets.txt \
+#     && export AFL_USE_ASAN=1 \
+#     && make -j$(getconf _NPROCESSORS_ONLN) \
+#     # install BRaft & braft_cli
+#     && cp -r /opt/fs/braft/bld/output/* / \
+#     && cp -r /opt/fs/braft/bld/tools/output/* / \
+#     && cd /opt/fs/braft/example/atomic \
+#     && cmake . && export TARGETS_FILE=/opt/fs/raft-c/instr-targets.txt \
+#     && export AFL_USE_ASAN=1 \
+#     && make -j$(getconf _NPROCESSORS_ONLN)
+# RUN mv /opt/instrumentor/BB2ID.txt /opt/instrumentor/braft_CodeLocToBBID.txt || true
+# COPY jepsen/tests/mallory/braft/resources/jepsen_control.sh /opt/fs/braft/example/atomic/jepsen_control.sh
 
-# Dqlite (based on Canonical Raft, which we build again from upstream)
-WORKDIR /opt/fs
-ENV CXX=clang++
-ENV CC=clang
+# # Dqlite (based on Canonical Raft, which we build again from upstream)
+# WORKDIR /opt/fs
+# ENV CXX=clang++
+# ENV CC=clang
 
-RUN apt-get install -y libsqlite3-dev libuv1-dev
+# RUN apt-get install -y libsqlite3-dev libuv1-dev
 # raft-c: v0.17.1, dqlite: v1.14.0
-RUN git clone -b newer-jepsen-testing https://github.com/mengrj/raft-c.git dqlite-raft
-RUN git clone -b newer-jepsen-testing https://github.com/mengrj/dqlite.git dqlite
+# RUN git clone -b newer-jepsen-testing https://github.com/mengrj/raft-c.git dqlite-raft
+# RUN git clone -b newer-jepsen-testing https://github.com/mengrj/dqlite.git dqlite
 
-ENV DQLITE_VER=v1.11.7
+# ENV DQLITE_VER=v1.11.7
 
-WORKDIR /opt/fs
-RUN cd dqlite-raft \
-    && python3 /opt/instrumentor/tell_instr_targets.py --input ./src --output .
+# WORKDIR /opt/fs
+# RUN cd dqlite-raft \
+#     && python3 /opt/instrumentor/tell_instr_targets.py --input ./src --output .
 
-WORKDIR /opt/fs
-RUN cd dqlite \
-    && python3 /opt/instrumentor/tell_instr_targets.py --input ./src --output .
+# WORKDIR /opt/fs
+# RUN cd dqlite \
+#     && python3 /opt/instrumentor/tell_instr_targets.py --input ./src --output .
 
 # Build everything in one go (required to correctly generate instrumentation)
-WORKDIR /opt/fs
+# WORKDIR /opt/fs
 
-ENV CXX=/opt/instrumentor/llvm_mode/afl-clang-fast++
-ENV CC=/opt/instrumentor/llvm_mode/afl-clang-fast
+# ENV CXX=/opt/instrumentor/llvm_mode/afl-clang-fast++
+# ENV CC=/opt/instrumentor/llvm_mode/afl-clang-fast
 
-RUN cd dqlite-raft \
-    && export TARGETS_FILE=/opt/fs/dqlite-raft/instr-targets.txt \
-    && autoreconf -i \
-    && ./configure --enable-debug --enable-sanitize \
-    && make -j$(getconf _NPROCESSORS_ONLN) \
-    && make install \
-    && cd ../dqlite \
-    && export TARGETS_FILE=/opt/fs/dqlite/instr-targets.txt \
-    && autoreconf -i \
-    && ./configure --enable-debug --enable-sanitize \
-    && make -j$(getconf _NPROCESSORS_ONLN) \
-    && make install
-RUN mv /opt/instrumentor/BB2ID.txt /opt/instrumentor/dqlite_CodeLocToBBID.txt || true
+# RUN cd dqlite-raft \
+#     && export TARGETS_FILE=/opt/fs/dqlite-raft/instr-targets.txt \
+#     && autoreconf -i \
+#     && ./configure --enable-debug --enable-sanitize \
+#     && make -j$(getconf _NPROCESSORS_ONLN) \
+#     && make install \
+#     && cd ../dqlite \
+#     && export TARGETS_FILE=/opt/fs/dqlite/instr-targets.txt \
+#     && autoreconf -i \
+#     && ./configure --enable-debug --enable-sanitize \
+#     && make -j$(getconf _NPROCESSORS_ONLN) \
+#     && make install
+# RUN mv /opt/instrumentor/BB2ID.txt /opt/instrumentor/dqlite_CodeLocToBBID.txt || true
 
 # This fixes some certificate-related issues (by installing a new version of GnuTLS?)
-RUN apt-get update -y
-RUN apt-get upgrade -y
-# We install a recent version of Go
-WORKDIR /root
-RUN curl -L -O https://go.dev/dl/go1.18.4.linux-amd64.tar.gz \
-    && tar xvf go1.18.4.linux-amd64.tar.gz \
-    && chown -R root:root ./go \
-    && mv go /usr/local
-RUN echo "export PATH=$PATH:/usr/local/go/bin" >> /root/.bashrc
-ENV PATH="$PATH:/usr/local/go/bin" 
+# RUN apt-get update -y
+# RUN apt-get upgrade -y
+# # We install a recent version of Go
+# WORKDIR /root
+# RUN curl -L -O https://go.dev/dl/go1.18.4.linux-amd64.tar.gz \
+#     && tar xvf go1.18.4.linux-amd64.tar.gz \
+#     && chown -R root:root ./go \
+#     && mv go /usr/local
+# RUN echo "export PATH=$PATH:/usr/local/go/bin" >> /root/.bashrc
+# ENV PATH="$PATH:/usr/local/go/bin" 
 
-COPY jepsen/tests/mallory/dqlite/resources/app.go /opt/fs/dqlite/app.go
-WORKDIR /opt/fs/dqlite
+# COPY jepsen/tests/mallory/dqlite/resources/app.go /opt/fs/dqlite/app.go
+# WORKDIR /opt/fs/dqlite
 
 ENV CXX=clang++
-ENV CC=clang
-RUN go mod init app
-RUN go get -tags libsqlite3 github.com/canonical/go-dqlite/app@${DQLITE_VER}
-RUN export CGO_LDFLAGS_ALLOW="-Wl,-z,now" \
-    && go build -o app -asan app.go
+# ENV CC=clang
+# RUN go mod init app
+# RUN go get -tags libsqlite3 github.com/canonical/go-dqlite/app@${DQLITE_VER}
+# RUN export CGO_LDFLAGS_ALLOW="-Wl,-z,now" \
+#     && go build -o app -asan app.go
 
 # RedisRaft
 WORKDIR /opt
