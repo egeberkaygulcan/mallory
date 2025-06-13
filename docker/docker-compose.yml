@@ -13,7 +13,8 @@ x-node:
   cgroup_parent: docker.slice
   volumes:
     - "jepsen-shared:/var/jepsen/shared"
-    - "/jepsen:/host"
+    - "../jepsen:/host"
+    - "/dev:/dev"
   # The lines below are to allow FUSE to work in the container
     - "/lib/modules:/lib/modules"
   devices:
@@ -108,7 +109,7 @@ services:
 
     volumes:
       - "jepsen-shared:/var/jepsen/shared"
-      - "/home/ubuntu/distributed-fuzzing:/host"
+      - "../:/host"
     extra_hosts:
     #   - "control:172.16.0.2"
       - "n1:10.1.1.3"

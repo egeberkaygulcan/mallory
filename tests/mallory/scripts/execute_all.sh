@@ -2,6 +2,7 @@
 
 # ./execute_all.sh 2 35 /host/tests/scripts/logs
 # ./execute_all.sh 14400 3 5 /host/tests/scripts/logs event
+# /host/tests/mallory/scripts/execute_all.sh 5 3 5 /host/tests/scripts/logs event
 
 # Get input parameters
 exec_num=$1         # The number of executions
@@ -36,6 +37,7 @@ else
 fi
 
 # subjects=("dqlite" "braft" "redisraft" "tikv" "scylladb" "mongodb")
+subjects=("redisraft")
 
 # Create the log directory if it does not exist
 rm -rf "$log_dir"
@@ -95,7 +97,7 @@ for ((subject_idx = 0; subject_idx < "${#subjects[@]}"; subject_idx++)); do
             mv /tmp/events.log "$subject_log_dir"/"$subject"_"$fuzzer"_events_"$i".log
 
             # Sleep for half hour to recover service
-            sleep 1800
+            sleep 10
         done
     done
 

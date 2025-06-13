@@ -1,0 +1,3 @@
+tests/mallory/redisraft/target
+mediator/target
+mediator/Cargo.lock
