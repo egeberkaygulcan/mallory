@@ -78,7 +78,7 @@ for ((subject_idx = 0; subject_idx < "${#subjects[@]}"; subject_idx++)); do
                 cd /host/tests/mallory/"$subject" && lein run test --workload wr-register --time-limit "$run_time" --test-count 1
             # If the subject is redisraft
             elif [ "$subject" = "redisraft" ]; then
-                cd /host/tests/mallory/"$subject" && lein run test --workload append --nemesis all --follower-proxy --time-limit "$run_time" --test-count 1
+                cd /host/tests/mallory/"$subject" && lein run test --workload append --nemesis all --follower-proxy --time-limit "$run_time" --test-count 1 --nodes-file ~/nodes
             # If the subject is scylladb
             elif [ "$subject" = "scylladb" ]; then
                 cd /host/tests/mallory/"$subject" && lein run test --workload list-append --nemesis all --time-limit "$run_time" --test-count 1
