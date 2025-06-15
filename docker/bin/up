@@ -132,7 +132,7 @@ fi
 
 
 ## Build dockerfile
-bin/build-docker-compose "${NODE_COUNT}"
+# bin/build-docker-compose "${NODE_COUNT}"
 
 # Make sure folders referenced in control Dockerfile exist and don't contain leftover files
 rm -rf ./control/jepsen
