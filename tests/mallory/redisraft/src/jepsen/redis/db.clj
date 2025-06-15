@@ -390,20 +390,21 @@
         ;;   :--raft.log-max-file-size   (:raft-log-max-file-size test)
         ;;   :--raft.log-max-cache-size  (:raft-log-max-cache-size test)
         ;;   :--raft.follower-proxy      (get {false "no" true "yes"} (:follower-proxy test)))
-        (c/exec :nohup "/opt/redis/redis-server"
-          :--protected-mode "no"
-          :--bind "127.0.0.1"
-          :--dbfilename "redis.rdb"
-          :--loglevel "debug"
-          :--loadmodule "/opt/redis/redisraft.so"
-          :--raft.loglevel "debug"
-          :--raft.log-filename "raftlog.db"
-          :--raft.log-max-file-size "10485760"
-          :--raft.log-max-cache-size "33554432"
-          :--raft.follower-proxy "yes"
-          :">" "/opt/redis-log/redis.log"
-          :"2>&1" :&
-      ))
+        (c/exec "nohup"
+        "/opt/redis/redis-server"
+        "--protected-mode" "no"
+        "--bind" "127.0.0.1"
+        "--dbfilename" "redis.rdb"
+        "--loglevel" "debug"
+        "--loadmodule" "/opt/redis/redisraft.so"
+        "--raft.loglevel" "debug"
+        "--raft.log-filename" "raftlog.db"
+        "--raft.log-max-file-size" "10485760"
+        "--raft.log-max-cache-size" "33554432"
+        "--raft.follower-proxy" "yes"
+        ">" "/opt/redis-log/redis.log"
+        "2>&1" "&")
+      )
 
       (kill! [_ test node]
         (c/su
