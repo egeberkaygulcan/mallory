@@ -68,6 +68,13 @@ services:
     volumes:
       - "jepsen-shared:/var/jepsen/shared"
       - "../:/host"
+    entrypoint: >
+      bash -c "apt-get update &&
+               apt-get install -y musl-tools &&
+               rustup target add x86_64-unknown-linux-musl &&
+               cd /host/mediator &&
+               RUSTFLAGS='-C target-cpu=generic' cargo build --release --target=x86_64-unknown-linux-musl &&
+               sleep infinity"
 
   n1:
     << : *default-node

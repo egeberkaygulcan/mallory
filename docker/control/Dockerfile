@@ -77,11 +77,3 @@ RUN dos2unix /init.sh /root/.bashrc \
     && chmod +x /init.sh
 
 CMD /init.sh
-
-# Assume /host/mediator is already mounted/populated
-
-RUN cd /host/mediator && \
-    apt-get update && \
-    apt-get install musl-tools -y && \
-    rustup target add x86_64-unknown-linux-musl && \
-    RUSTFLAGS="-C target-cpu=generic" cargo build --release --target=x86_64-unknown-linux-musl
