@@ -122,13 +122,13 @@
         ; Try to stop ntpd service in case it is present and running.
         (try (c/su (c/exec :service :ntpd :stop))
              (catch RuntimeException e))
-        (reset-time!))
+        (reset-time! test))
       nem)
 
     (invoke! [_ test op]
       (let [res (case (:f op)
                   :reset (c/on-nodes test (:value op) (fn [test node]
-                                                        (reset-time!)
+                                                        (reset-time! test)
                                                         (current-offset)))
 
                   :check-offsets (c/on-nodes test (fn [test node]
