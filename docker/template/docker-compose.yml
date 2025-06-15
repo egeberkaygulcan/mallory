@@ -32,7 +32,6 @@ x-node:
 
 volumes:
   jepsen-shared:
-  redis-logs:
 
 secrets:
   authorized_keys:
