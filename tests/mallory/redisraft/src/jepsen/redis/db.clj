@@ -373,42 +373,23 @@
 
       db/Process
       (start! [_ test node]
-        (info node "Starting redis-server")
         (c/su
-        (c/exec :mkdir :-p dir)
-        (c/exec "bash" "-c"
-                (str "ulimit -c unlimited && "
-                      "nohup /opt/redis/redis-server "
-                      "--protected-mode no "
-                      "--bind 127.0.0.1 "
-                      "--dbfilename redis.rdb "
-                      "--loglevel debug "
-                      "--loadmodule /opt/redis/redisraft.so "
-                      "--raft.loglevel debug "
-                      "--raft.log-filename raftlog.db "
-                      "--raft.log-max-file-size 10485760 "
-                      "--raft.log-max-cache-size 33554432 "
-                      "--raft.follower-proxy yes "
-                      "> /opt/redis-log/redis.log 2>&1 &"))))
-
-      ;; (start! [_ test node]
-      ;;   (c/su
-      ;;     (c/exec :mkdir :-p dir)
-      ;;    (info node :starting :redis)
-      ;;    (cu/start-daemon!
-      ;;     {:logfile log-file
-      ;;      :pidfile pid-file
-      ;;      :chdir   dir}
-      ;;     full-binary
-      ;;     :--protected-mode           "no"
-      ;;     :--bind                     "127.0.0.1";;"0.0.0.0"
-      ;;     :--dbfilename               db-file
-      ;;     :--loadmodule               (str dir-redis "/redisraft.so")
-      ;;     :--raft.loglevel            "debug"
-      ;;     :--raft.log-filename        raft-log-file
-      ;;     :--raft.log-max-file-size   (:raft-log-max-file-size test)
-      ;;     :--raft.log-max-cache-size  (:raft-log-max-cache-size test)
-      ;;     :--raft.follower-proxy      (get {false "no" true "yes"} (:follower-proxy test)))))
+          ;; (c/exec :mkdir :-p dir)
+         (info node :starting :redis)
+         (cu/start-daemon!
+          {:logfile log-file
+           :pidfile pid-file
+           :chdir   dir}
+          full-binary
+          :--protected-mode           "no"
+          :--bind                     "0.0.0.0"
+          :--dbfilename               db-file
+          :--loadmodule               (str dir-redis "/redisraft.so")
+          :--raft.loglevel            "debug"
+          :--raft.log-filename        raft-log-file
+          :--raft.log-max-file-size   (:raft-log-max-file-size test)
+          :--raft.log-max-cache-size  (:raft-log-max-cache-size test)
+          :--raft.follower-proxy      (get {false "no" true "yes"} (:follower-proxy test)))))
 
       (kill! [_ test node]
         (c/su
