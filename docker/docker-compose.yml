@@ -67,11 +67,6 @@ services:
     volumes:
       - "jepsen-shared:/var/jepsen/shared"
       - "../:/host"
-    extra_hosts:
-      - "n1:jepsen-n1"
-      - "n2:jepsen-n2"
-      - "n3:jepsen-n3"
-      - "control:jepsen-control"
 
   n1:
     << : *default-node
@@ -81,11 +76,6 @@ services:
     hostname: n1
     depends_on:
       - _build_node_image
-    extra_hosts:
-      - "n1:jepsen-n1"
-      - "n2:jepsen-n2"
-      - "n3:jepsen-n3"
-      - "control:jepsen-control"
 
   n2:
     << : *default-node
@@ -96,11 +86,6 @@ services:
     depends_on:
       - _build_node_image
       - n1
-    extra_hosts:
-      - "n1:jepsen-n1"
-      - "n2:jepsen-n2"
-      - "n3:jepsen-n3"
-      - "control:jepsen-control"
 
   n3:
     << : *default-node
@@ -111,8 +96,3 @@ services:
     depends_on:
       - _build_node_image
       - n2
-    extra_hosts:
-      - "n1:jepsen-n1"
-      - "n2:jepsen-n2"
-      - "n3:jepsen-n3"
-      - "control:jepsen-control"
