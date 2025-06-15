@@ -5,7 +5,7 @@ x-node:
   env_file: ./secret/node.env
   secrets:
     - authorized_keys
-  tty: true
+  tty: false  
   tmpfs:
     - /run:size=100M
     - /run/lock:size=100M
