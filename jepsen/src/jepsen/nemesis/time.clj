@@ -83,11 +83,13 @@
   []
   (clock-offset (parse-time (c/exec :date "+%s.%N"))))
 
-(defn reset-time!
-  "Resets the local node's clock to NTP. If a test is given, resets time on all
-  nodes across the test."
-  ([]     (c/su (c/exec :ntpdate :-p 1 :-b "time.google.com")))
-  ([test] (c/with-test-nodes test (reset-time!))))
+;; (defn reset-time!
+;;   "Resets the local node's clock to NTP. If a test is given, resets time on all
+;;   nodes across the test."
+;;   ([]     (c/su (c/exec :ntpdate :-p 1 :-b "time.google.com")))
+;;   ([test] (c/with-test-nodes test (reset-time!))))
+(defn reset-time! [test]
+  (println "Skipping NTP sync due to env/network limitations"))
 
 (defn bump-time!
   "Adjusts the clock by delta milliseconds. Returns the time offset from the
