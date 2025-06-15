@@ -71,8 +71,8 @@ services:
   n1:
     << : *default-node
     container_name: jepsen-n1
-    volumes:
-      - redis-logs:/opt/redis-log
+    # volumes:
+    #   - redis-logs:/opt/redis-log
     hostname: n1
     depends_on:
       - _build_node_image
@@ -80,8 +80,8 @@ services:
   n2:
     << : *default-node
     container_name: jepsen-n2
-    volumes:
-      - redis-logs:/opt/redis-log
+    # volumes:
+    #   - redis-logs:/opt/redis-log
     hostname: n2
     depends_on:
       - _build_node_image
@@ -90,8 +90,8 @@ services:
   n3:
     << : *default-node
     container_name: jepsen-n3
-    volumes:
-      - redis-logs:/opt/redis-log
+    # volumes:
+    #   - redis-logs:/opt/redis-log
     hostname: n3
     depends_on:
       - _build_node_image
