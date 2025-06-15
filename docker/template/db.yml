@@ -12,6 +12,7 @@
         ipv4_address: "10.1.%%N%%.3"
       # sidenet:
       #   ipv4_address: "172.16.0.%%NPT%%"
+      jepsen:   # added this line to attach the shared jepsen network
     extra_hosts:
       - "control:10.1.%%N%%.2"
 %%NODE_HOSTS%%
