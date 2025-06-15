@@ -22,9 +22,12 @@ fi
 # Set variables
 if [ "$analysis_type" = "event" ]; then
     # Set the fuzzers, schedules, feedbacks
-    fuzzers=("DSFuzzer" "Jepsen")
-    schedules=("qlearning" "noop")
-    feedbacks=("event_history" "event_history")
+    # fuzzers=("DSFuzzer" "Jepsen")
+    fuzzers=("DSFuzzer")
+    # schedules=("qlearning" "noop")
+    schedules=("qlearning")
+    # feedbacks=("event_history" "event_history")
+    feedbacks=("event_history")
 elif [ "$analysis_type" = "branch" ]; then
     # Set the fuzzers, schedules, feedbacks
     fuzzers=("DSFuzzer" "AFL")
@@ -65,7 +68,7 @@ for ((subject_idx = 0; subject_idx < "${#subjects[@]}"; subject_idx++)); do
             schedule="${schedules[$fuzzer_idx]}"
             feedback="${feedbacks[$fuzzer_idx]}"
             
-            cd /host/mediator && timeout "$timeout" ./target/x86_64-unknown-linux-musl/release/mediator "$schedule" "$feedback" &
+            cd /host/mediator && timeout "$timeout" ./target/x86_64-unknown-linux-musl/release/mediator "$schedule" "$feedback" 0.7 &
             # Wait for the mediator to start
             sleep 20
 
