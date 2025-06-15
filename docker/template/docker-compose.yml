@@ -38,8 +38,6 @@ secrets:
     file: ./secret/authorized_keys
 
 networks:
-  jepsen:
-    driver: bridge
   # This allows all traffic (to central & Internet, but NOT between nodes)
   # primarily used for sending out-of-band information to the central node
   # we set this up via an iptables rule to DROP all traffic on this subnet

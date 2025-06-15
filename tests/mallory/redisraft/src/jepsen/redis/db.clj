@@ -286,7 +286,12 @@
           ; make sure cov-server ready
          (Thread/sleep 6000)
          (db/start! this test node)
-         (Thread/sleep 1000) ; TODO: block until port bound
+        ;;  (Thread/sleep 1000) ; TODO: block until port bound
+        (info "Waiting for Redis to bind on port 6379")
+        (when-not (cu/wait-for-port 6379 10)
+          (warn "Redis did not bind to port 6379 in time")
+          (throw+ {:type :redis-did-not-start
+                  :node node}))
 
          (if (= node (jepsen/primary test))
             ; Initialize the cluster on the primary
