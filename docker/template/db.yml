@@ -1,6 +1,8 @@
   n%%N%%:
     << : *default-node
     container_name: jepsen-n%%N%%
+    volumes:
+      - redis-logs:/opt/redis-log
     hostname: n%%N%%
     depends_on:
       - _build_node_image

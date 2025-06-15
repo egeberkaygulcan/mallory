@@ -32,14 +32,13 @@ x-node:
 
 volumes:
   jepsen-shared:
+  redis-logs:
 
 secrets:
   authorized_keys:
     file: ./secret/authorized_keys
 
 networks:
-  jepsen:
-    driver: bridge
   # This allows all traffic (to central & Internet, but NOT between nodes)
   # primarily used for sending out-of-band information to the central node
   # we set this up via an iptables rule to DROP all traffic on this subnet
@@ -121,6 +120,8 @@ services:
   n1:
     << : *default-node
     container_name: jepsen-n1
+    volumes:
+      - redis-logs:/opt/redis-log
     hostname: n1
     depends_on:
       - _build_node_image
@@ -132,7 +133,6 @@ services:
         ipv4_address: "10.1.1.3"
       # sidenet:
       #   ipv4_address: "172.16.0.3"
-      jepsen:   # added this line to attach the shared jepsen network
     extra_hosts:
       - "control:10.1.1.2"
 #      - "control:172.16.0.2"
@@ -142,6 +142,8 @@ services:
   n2:
     << : *default-node
     container_name: jepsen-n2
+    volumes:
+      - redis-logs:/opt/redis-log
     hostname: n2
     depends_on:
       - _build_node_image
@@ -153,7 +155,6 @@ services:
         ipv4_address: "10.1.2.3"
       # sidenet:
       #   ipv4_address: "172.16.0.4"
-      jepsen:   # added this line to attach the shared jepsen network
     extra_hosts:
       - "control:10.1.2.2"
 #      - "control:172.16.0.2"
@@ -163,6 +164,8 @@ services:
   n3:
     << : *default-node
     container_name: jepsen-n3
+    volumes:
+      - redis-logs:/opt/redis-log
     hostname: n3
     depends_on:
       - _build_node_image
@@ -174,7 +177,6 @@ services:
         ipv4_address: "10.1.3.3"
       # sidenet:
       #   ipv4_address: "172.16.0.5"
-      jepsen:   # added this line to attach the shared jepsen network
     extra_hosts:
       - "control:10.1.3.2"
 #      - "control:172.16.0.2"

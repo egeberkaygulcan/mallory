@@ -1,4 +1,4 @@
-version: '3.7'
+# version: '3.7'
 x-node:
   &default-node
   image: jepsen_node
@@ -32,6 +32,7 @@ x-node:
 
 volumes:
   jepsen-shared:
+  redis-logs:
 
 secrets:
   authorized_keys:
