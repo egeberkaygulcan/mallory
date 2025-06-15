@@ -37,9 +37,9 @@
 (def raft-log-file  "raftlog.db")
 
 (defn cli!
-  "Runs a Redis CLI command. Includes a 5s timeout."
+  "Runs a Redis CLI command. Includes a 2s timeout."
   [& args]
-  (c/su (apply c/exec :timeout "5s" (str dir-redis "/" cli-binary) args)))
+  (c/su (apply c/exec :timeout "2s" (str dir-redis "/" cli-binary) args)))
 
 (defn raft-info-str
   "Returns the current cluster state as a string."
@@ -243,41 +243,6 @@
     cov-server
     log-file)))
 
-;; (defn wait-for-port
-;;   "Waits for a port to be open on localhost for up to `attempts` tries."
-;;   ([port] (wait-for-port port 10))
-;;   ([port attempts]
-;;    (loop [n attempts]
-;;      (if (zero? n)
-;;        false
-;;        (let [result (try
-;;                       (with-open [s (java.net.Socket. "127.0.0.1" port)]
-;;                         true)
-;;                       (catch Exception _ false))]
-;;          (if result
-;;            true
-;;            (do (Thread/sleep 1000)
-;;                (recur (dec n)))))))))
-(defn wait-for-port
-  ([port] (wait-for-port port 30))
-  ([port attempts]
-   (loop [n attempts]
-     (if (zero? n)
-       false
-       (let [result (try
-                      (with-open [s (java.net.Socket. "127.0.0.1" port)]
-                        true)
-                      (catch Exception e
-                        (println "Port check failed:" (.getMessage e))
-                        false))]
-         (if result
-           (do (println "Port check success on attempt" (- attempts n))
-               true)
-           (do (Thread/sleep 1000)
-               (recur (dec n)))))))))
-
-
-
 (defn redis-raft
   "Sets up a Redis-Raft based cluster. Tests should include :redis-version
   and :raft-version options, which will be the git SHA or tag to build."
@@ -321,14 +286,7 @@
           ; make sure cov-server ready
          (Thread/sleep 6000)
          (db/start! this test node)
-        ;;  (Thread/sleep 1000) ; TODO: block until port bound
-        (info "Waiting for Redis to bind on port 6379")
-        (when-not (wait-for-port 6379 10)
-          (warn "Redis did not bind to port 6379 in time")
-          (throw+ {:type :redis-did-not-start
-                  :node node}))
-          (info node "Waiting for Redis port 6379...")
-          (info node "Redis port 6379 is now reachable")
+         (Thread/sleep 1000) ; TODO: block until port bound
 
          (if (= node (jepsen/primary test))
             ; Initialize the cluster on the primary
@@ -568,4 +526,3 @@
                 (filter #(re-matches #".*/core\.?\d*" %) (cu/ls-full dir))
                 (when (:tcpdump test)
                   (db/log-files tcpdump test node)))))))
-
