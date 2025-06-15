@@ -243,9 +243,23 @@
     cov-server
     log-file)))
 
+;; (defn wait-for-port
+;;   "Waits for a port to be open on localhost for up to `attempts` tries."
+;;   ([port] (wait-for-port port 10))
+;;   ([port attempts]
+;;    (loop [n attempts]
+;;      (if (zero? n)
+;;        false
+;;        (let [result (try
+;;                       (with-open [s (java.net.Socket. "127.0.0.1" port)]
+;;                         true)
+;;                       (catch Exception _ false))]
+;;          (if result
+;;            true
+;;            (do (Thread/sleep 1000)
+;;                (recur (dec n)))))))))
 (defn wait-for-port
-  "Waits for a port to be open on localhost for up to `attempts` tries."
-  ([port] (wait-for-port port 10))
+  ([port] (wait-for-port port 30))
   ([port attempts]
    (loop [n attempts]
      (if (zero? n)
@@ -253,11 +267,15 @@
        (let [result (try
                       (with-open [s (java.net.Socket. "127.0.0.1" port)]
                         true)
-                      (catch Exception _ false))]
+                      (catch Exception e
+                        (println "Port check failed:" (.getMessage e))
+                        false))]
          (if result
-           true
+           (do (println "Port check success on attempt" (- attempts n))
+               true)
            (do (Thread/sleep 1000)
                (recur (dec n)))))))))
+
 
 
 (defn redis-raft
@@ -305,10 +323,12 @@
          (db/start! this test node)
         ;;  (Thread/sleep 1000) ; TODO: block until port bound
         (info "Waiting for Redis to bind on port 6379")
-        (when-not (cu/wait-for-port 6379 10)
+        (when-not (wait-for-port 6379 10)
           (warn "Redis did not bind to port 6379 in time")
           (throw+ {:type :redis-did-not-start
                   :node node}))
+          (info node "Waiting for Redis port 6379...")
+          (info node "Redis port 6379 is now reachable")
 
          (if (= node (jepsen/primary test))
             ; Initialize the cluster on the primary
@@ -362,7 +382,7 @@
            :chdir   dir}
           full-binary
           :--protected-mode           "no"
-          :--bind                     "0.0.0.0"
+          :--bind                     "127.0.0.1";;"0.0.0.0"
           :--dbfilename               db-file
           :--loadmodule               (str dir-redis "/redisraft.so")
           :--raft.loglevel            "debug"
