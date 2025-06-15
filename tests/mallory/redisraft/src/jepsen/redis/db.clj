@@ -243,6 +243,23 @@
     cov-server
     log-file)))
 
+(defn wait-for-port
+  "Waits for a port to be open on localhost for up to `attempts` tries."
+  ([port] (wait-for-port port 10))
+  ([port attempts]
+   (loop [n attempts]
+     (if (zero? n)
+       false
+       (let [result (try
+                      (with-open [s (java.net.Socket. "127.0.0.1" port)]
+                        true)
+                      (catch Exception _ false))]
+         (if result
+           true
+           (do (Thread/sleep 1000)
+               (recur (dec n)))))))))
+
+
 (defn redis-raft
   "Sets up a Redis-Raft based cluster. Tests should include :redis-version
   and :raft-version options, which will be the git SHA or tag to build."
