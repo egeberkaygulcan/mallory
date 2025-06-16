@@ -1,0 +1,51 @@
+2025-06-16 06:34:37 Jepsen starting  /opt/redis/redis-server --protected-mode no --bind 0.0.0.0 --dbfilename redis.rdb --loadmodule /opt/redis/redisraft.so --raft.loglevel debug --raft.log-filename raftlog.db --raft.log-max-file-size 32000 --raft.log-max-cache-size 1000000 --raft.follower-proxy yes
+11825:C 16 Jun 2025 06:34:37.455 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+11825:C 16 Jun 2025 06:34:37.455 * Redis version=255.255.255, bits=64, commit=48ea17f0, modified=0, pid=11825, just started
+11825:C 16 Jun 2025 06:34:37.455 * Configuration loaded
+11825:M 16 Jun 2025 06:34:37.458 * Increased maximum number of open files to 10032 (it was originally set to 1024).
+11825:M 16 Jun 2025 06:34:37.458 * monotonic clock: POSIX clock_gettime
+11825:M 16 Jun 2025 06:34:37.461 * Running mode=standalone, port=6379.
+11825:M 16 Jun 2025 06:34:37.462 * <raft> RedisRaft version 255.255.255 [5b53a293]
+11825:M 16 Jun 2025 06:34:37.499 * <raft> Raft module loaded, state is 'uninitialized'
+11825:M 16 Jun 2025 06:34:37.499 * Module 'raft' loaded from /opt/redis/redisraft.so
+11825:M 16 Jun 2025 06:34:37.499 * Server initialized
+11825:M 16 Jun 2025 06:34:37.499 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+11825:M 16 Jun 2025 06:34:37.499 * Ready to accept connections tcp
+11825:M 16 Jun 2025 06:34:38.639 # Missing implement of connection type tls
+11825:M 16 Jun 2025 06:34:38.753 * <raft> Joined Raft cluster, node id: 1690738726, dbid: b4b202201563293510c8698508d49476
+2025-06-16 06:34:59 Jepsen starting  /opt/redis/redis-server --protected-mode no --bind 0.0.0.0 --dbfilename redis.rdb --loadmodule /opt/redis/redisraft.so --raft.loglevel debug --raft.log-filename raftlog.db --raft.log-max-file-size 32000 --raft.log-max-cache-size 1000000 --raft.follower-proxy yes
+11998:C 16 Jun 2025 06:34:59.307 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+11998:C 16 Jun 2025 06:34:59.307 * Redis version=255.255.255, bits=64, commit=48ea17f0, modified=0, pid=11998, just started
+11998:C 16 Jun 2025 06:34:59.307 * Configuration loaded
+11998:M 16 Jun 2025 06:34:59.310 * Increased maximum number of open files to 10032 (it was originally set to 1024).
+11998:M 16 Jun 2025 06:34:59.310 * monotonic clock: POSIX clock_gettime
+11998:M 16 Jun 2025 06:34:59.313 * Running mode=standalone, port=6379.
+11998:M 16 Jun 2025 06:34:59.314 * <raft> RedisRaft version 255.255.255 [5b53a293]
+11998:M 16 Jun 2025 06:34:59.351 * <raft> Raft module loaded, state is 'loading'
+11998:M 16 Jun 2025 06:34:59.351 * Module 'raft' loaded from /opt/redis/redisraft.so
+11998:M 16 Jun 2025 06:34:59.351 * Server initialized
+11998:M 16 Jun 2025 06:34:59.351 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+11998:M 16 Jun 2025 06:34:59.351 * Ready to accept connections tcp
+11998:M 16 Jun 2025 06:34:59.420 # Missing implement of connection type tls
+11998:M 16 Jun 2025 06:34:59.451 * <raft> Loading: Redis loading complete, snapshot NOT LOADED
+11998:M 16 Jun 2025 06:34:59.453 * <raft> Raft state after loading log: log_count=53, first_idx=1, current_idx=53, last_applied_idx=0
+11998:M 16 Jun 2025 06:35:00.686 * <raft> State change: Node is now a follower, term 2
+11998:M 16 Jun 2025 06:35:00.688 * <raft> Cluster Membership: term:2 index:53 nodes: id=1690738726,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1558745765,voting=1,active=1,addr=172.19.0.3:6379
+2025-06-16 06:35:44 Jepsen starting  /opt/redis/redis-server --protected-mode no --bind 0.0.0.0 --dbfilename redis.rdb --loadmodule /opt/redis/redisraft.so --raft.loglevel debug --raft.log-filename raftlog.db --raft.log-max-file-size 32000 --raft.log-max-cache-size 1000000 --raft.follower-proxy yes
+12346:C 16 Jun 2025 06:35:44.270 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+12346:C 16 Jun 2025 06:35:44.270 * Redis version=255.255.255, bits=64, commit=48ea17f0, modified=0, pid=12346, just started
+12346:C 16 Jun 2025 06:35:44.270 * Configuration loaded
+12346:M 16 Jun 2025 06:35:44.273 * Increased maximum number of open files to 10032 (it was originally set to 1024).
+12346:M 16 Jun 2025 06:35:44.273 * monotonic clock: POSIX clock_gettime
+12346:M 16 Jun 2025 06:35:44.276 * Running mode=standalone, port=6379.
+12346:M 16 Jun 2025 06:35:44.277 * <raft> RedisRaft version 255.255.255 [5b53a293]
+12346:M 16 Jun 2025 06:35:44.313 * <raft> Raft module loaded, state is 'loading'
+12346:M 16 Jun 2025 06:35:44.313 * Module 'raft' loaded from /opt/redis/redisraft.so
+12346:M 16 Jun 2025 06:35:44.313 * Server initialized
+12346:M 16 Jun 2025 06:35:44.313 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+12346:M 16 Jun 2025 06:35:44.314 * Ready to accept connections tcp
+12346:M 16 Jun 2025 06:35:44.412 # Missing implement of connection type tls
+12346:M 16 Jun 2025 06:35:44.414 * <raft> Loading: Redis loading complete, snapshot NOT LOADED
+12346:M 16 Jun 2025 06:35:44.415 * <raft> Raft state after loading log: log_count=63, first_idx=1, current_idx=63, last_applied_idx=0
+12346:M 16 Jun 2025 06:35:46.273 * <raft> State change: Node is now a follower, term 3
+12346:M 16 Jun 2025 06:35:46.274 * <raft> Cluster Membership: term:3 index:63 nodes: id=1690738726,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1558745765,voting=1,active=1,addr=172.19.0.3:6379

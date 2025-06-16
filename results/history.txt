@@ -1,0 +1,538 @@
+1	:invoke	:txn	[[:r 10 nil] [:r 10 nil] [:append 10 1] [:r 10 nil]]
+2	:invoke	:txn	[[:r 11 nil]]
+0	:invoke	:txn	[[:append 9 1]]
+0	:ok	:txn	[[:append 9 1]]
+1	:ok	:txn	[[:r 10 []] [:r 10 []] [:append 10 1] [:r 10 [1]]]
+2	:ok	:txn	[[:r 11 []]]
+1	:invoke	:txn	[[:append 10 2] [:r 11 nil] [:r 9 nil] [:r 10 nil]]
+2	:invoke	:txn	[[:r 11 nil] [:append 11 1] [:r 11 nil] [:append 11 2]]
+1	:ok	:txn	[[:append 10 2] [:r 11 []] [:r 9 [1]] [:r 10 [1 2]]]
+2	:ok	:txn	[[:r 11 []] [:append 11 1] [:r 11 [1]] [:append 11 2]]
+0	:invoke	:txn	[[:append 8 1] [:r 11 nil] [:r 11 nil]]
+0	:ok	:txn	[[:append 8 1] [:r 11 [1 2]] [:r 11 [1 2]]]
+0	:invoke	:txn	[[:r 11 nil] [:r 11 nil] [:append 10 3] [:append 9 2]]
+0	:ok	:txn	[[:r 11 [1 2]] [:r 11 [1 2]] [:append 10 3] [:append 9 2]]
+2	:invoke	:txn	[[:append 10 4]]
+1	:invoke	:txn	[[:append 10 5] [:r 10 nil] [:append 9 3]]
+2	:ok	:txn	[[:append 10 4]]
+2	:invoke	:txn	[[:append 11 3] [:append 10 6] [:r 11 nil] [:append 11 4]]
+1	:ok	:txn	[[:append 10 5] [:r 10 [1 2 3 4 5]] [:append 9 3]]
+2	:ok	:txn	[[:append 11 3] [:append 10 6] [:r 11 [1 2 3]] [:append 11 4]]
+0	:invoke	:txn	[[:r 10 nil] [:append 8 2]]
+0	:ok	:txn	[[:r 10 [1 2 3 4 5 6]] [:append 8 2]]
+1	:invoke	:txn	[[:append 11 5] [:append 11 6] [:append 11 7]]
+1	:ok	:txn	[[:append 11 5] [:append 11 6] [:append 11 7]]
+1	:invoke	:txn	[[:append 10 7] [:append 11 8]]
+0	:invoke	:txn	[[:r 10 nil] [:r 10 nil] [:append 11 9] [:r 11 nil]]
+1	:ok	:txn	[[:append 10 7] [:append 11 8]]
+0	:ok	:txn	[[:r 10 [1 2 3 4 5 6 7]] [:r 10 [1 2 3 4 5 6 7]] [:append 11 9] [:r 11 [1 2 3 4 5 6 7 8 9]]]
+2	:invoke	:txn	[[:r 11 nil] [:append 11 10]]
+2	:ok	:txn	[[:r 11 [1 2 3 4 5 6 7 8 9]] [:append 11 10]]
+2	:invoke	:txn	[[:r 11 nil] [:append 11 11] [:r 11 nil]]
+2	:ok	:txn	[[:r 11 [1 2 3 4 5 6 7 8 9 10]] [:append 11 11] [:r 11 [1 2 3 4 5 6 7 8 9 10 11]]]
+0	:invoke	:txn	[[:append 11 12] [:r 11 nil] [:append 10 8] [:r 6 nil]]
+0	:ok	:txn	[[:append 11 12] [:r 11 [1 2 3 4 5 6 7 8 9 10 11 12]] [:append 10 8] [:r 6 []]]
+0	:invoke	:txn	[[:r 10 nil] [:r 10 nil]]
+0	:ok	:txn	[[:r 10 [1 2 3 4 5 6 7 8]] [:r 10 [1 2 3 4 5 6 7 8]]]
+2	:invoke	:txn	[[:r 9 nil] [:append 11 13]]
+2	:ok	:txn	[[:r 9 [1 2 3]] [:append 11 13]]
+2	:invoke	:txn	[[:append 11 14] [:append 11 15] [:append 11 16] [:append 10 9]]
+2	:ok	:txn	[[:append 11 14] [:append 11 15] [:append 11 16] [:append 10 9]]
+2	:invoke	:txn	[[:r 7 nil] [:append 11 17] [:r 7 nil]]
+2	:ok	:txn	[[:r 7 []] [:append 11 17] [:r 7 []]]
+1	:invoke	:txn	[[:append 11 18] [:append 11 19]]
+0	:invoke	:txn	[[:r 11 nil] [:append 10 10] [:append 10 11] [:append 10 12]]
+1	:ok	:txn	[[:append 11 18] [:append 11 19]]
+0	:ok	:txn	[[:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19]] [:append 10 10] [:append 10 11] [:append 10 12]]
+0	:invoke	:txn	[[:append 8 3]]
+0	:ok	:txn	[[:append 8 3]]
+0	:invoke	:txn	[[:append 11 20] [:append 11 21]]
+2	:invoke	:txn	[[:r 11 nil]]
+1	:invoke	:txn	[[:append 8 4] [:append 10 13] [:append 11 22] [:r 11 nil]]
+0	:ok	:txn	[[:append 11 20] [:append 11 21]]
+2	:ok	:txn	[[:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21]]]
+1	:ok	:txn	[[:append 8 4] [:append 10 13] [:append 11 22] [:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22]]]
+1	:invoke	:txn	[[:r 11 nil] [:append 11 23] [:r 11 nil] [:append 11 24]]
+2	:invoke	:txn	[[:append 10 14]]
+1	:ok	:txn	[[:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22]] [:append 11 23] [:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23]] [:append 11 24]]
+2	:ok	:txn	[[:append 10 14]]
+0	:invoke	:txn	[[:r 11 nil] [:append 10 15] [:append 11 25]]
+0	:ok	:txn	[[:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24]] [:append 10 15] [:append 11 25]]
+2	:invoke	:txn	[[:r 10 nil] [:r 11 nil] [:r 11 nil] [:r 10 nil]]
+2	:ok	:txn	[[:r 10 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15]] [:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25]] [:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25]] [:r 10 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15]]]
+0	:invoke	:txn	[[:r 11 nil] [:r 9 nil] [:r 11 nil]]
+0	:ok	:txn	[[:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25]] [:r 9 [1 2 3]] [:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25]]]
+1	:invoke	:txn	[[:append 10 16]]
+1	:ok	:txn	[[:append 10 16]]
+0	:invoke	:txn	[[:r 11 nil] [:append 10 17] [:r 10 nil]]
+0	:ok	:txn	[[:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25]] [:append 10 17] [:r 10 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17]]]
+0	:invoke	:txn	[[:r 11 nil] [:append 11 26]]
+0	:ok	:txn	[[:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25]] [:append 11 26]]
+1	:invoke	:txn	[[:r 9 nil]]
+1	:ok	:txn	[[:r 9 [1 2 3]]]
+0	:invoke	:txn	[[:append 10 18]]
+0	:ok	:txn	[[:append 10 18]]
+0	:invoke	:txn	[[:append 9 4] [:r 11 nil] [:append 11 27]]
+0	:ok	:txn	[[:append 9 4] [:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26]] [:append 11 27]]
+1	:invoke	:txn	[[:append 9 5]]
+1	:ok	:txn	[[:append 9 5]]
+0	:invoke	:txn	[[:r 11 nil]]
+0	:ok	:txn	[[:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27]]]
+1	:invoke	:txn	[[:append 9 6]]
+0	:invoke	:txn	[[:append 10 19] [:r 11 nil]]
+2	:invoke	:txn	[[:r 11 nil]]
+1	:ok	:txn	[[:append 9 6]]
+0	:ok	:txn	[[:append 10 19] [:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27]]]
+2	:ok	:txn	[[:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27]]]
+2	:invoke	:txn	[[:r 10 nil] [:append 9 7] [:append 10 20]]
+1	:invoke	:txn	[[:append 11 28]]
+2	:ok	:txn	[[:r 10 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19]] [:append 9 7] [:append 10 20]]
+1	:ok	:txn	[[:append 11 28]]
+1	:invoke	:txn	[[:r 11 nil] [:r 9 nil]]
+1	:ok	:txn	[[:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28]] [:r 9 [1 2 3 4 5 6 7]]]
+2	:invoke	:txn	[[:r 11 nil] [:append 11 29] [:r 7 nil]]
+0	:invoke	:txn	[[:append 5 1] [:append 11 30] [:append 11 31] [:r 10 nil]]
+2	:ok	:txn	[[:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28]] [:append 11 29] [:r 7 []]]
+0	:ok	:txn	[[:append 5 1] [:append 11 30] [:append 11 31] [:r 10 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20]]]
+1	:invoke	:txn	[[:append 9 8] [:append 10 21] [:r 11 nil] [:append 11 32]]
+1	:ok	:txn	[[:append 9 8] [:append 10 21] [:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31]] [:append 11 32]]
+0	:invoke	:txn	[[:append 8 5] [:r 11 nil]]
+2	:invoke	:txn	[[:append 11 33] [:append 11 34] [:r 10 nil]]
+0	:ok	:txn	[[:append 8 5] [:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32]]]
+2	:ok	:txn	[[:append 11 33] [:append 11 34] [:r 10 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21]]]
+0	:invoke	:txn	[[:append 10 22] [:r 11 nil]]
+0	:ok	:txn	[[:append 10 22] [:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34]]]
+0	:invoke	:txn	[[:r 9 nil] [:append 11 35] [:append 10 23] [:r 9 nil]]
+0	:ok	:txn	[[:r 9 [1 2 3 4 5 6 7 8]] [:append 11 35] [:append 10 23] [:r 9 [1 2 3 4 5 6 7 8]]]
+0	:invoke	:txn	[[:append 11 36]]
+0	:ok	:txn	[[:append 11 36]]
+:nemesis	:info	:kill	:majority
+1	:invoke	:txn	[[:r 11 nil] [:append 11 37] [:append 10 24]]
+1	:ok	:txn	[[:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36]] [:append 11 37] [:append 10 24]]
+2	:invoke	:txn	[[:append 9 9] [:r 10 nil] [:r 11 nil]]
+2	:ok	:txn	[[:append 9 9] [:r 10 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24]] [:r 11 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37]]]
+:nemesis	:info	:kill	{"n3" "", "n1" ""}
+0	:invoke	:txn	[[:append 7 1]]
+0	:info	:txn	[[:append 7 1]]	:eof
+1	:invoke	:txn	[[:r 8 nil] [:append 11 38] [:append 10 25] [:append 11 39]]
+1	:fail	:txn	[[:r 8 nil] [:append 11 38] [:append 10 25] [:append 11 39]]	:notleader
+2	:invoke	:txn	[[:r 10 nil] [:append 11 40] [:r 11 nil]]
+2	:info	:txn	[[:r 10 nil] [:append 11 40] [:r 11 nil]]	:eof
+5	:invoke	:txn	[[:r 11 nil] [:r 11 nil] [:append 11 41] [:r 11 nil]]
+3	:invoke	:txn	[[:r 9 nil] [:append 11 42] [:append 8 6]]
+1	:invoke	:txn	[[:append 9 10] [:r 11 nil]]
+1	:fail	:txn	[[:append 9 10] [:r 11 nil]]	:notleader
+1	:invoke	:txn	[[:append 10 26] [:r 11 nil] [:append 11 43] [:append 9 11]]
+1	:fail	:txn	[[:append 10 26] [:r 11 nil] [:append 11 43] [:append 9 11]]	:notleader
+1	:invoke	:txn	[[:append 8 7]]
+1	:fail	:txn	[[:append 8 7]]	:notleader
+1	:invoke	:txn	[[:r 11 nil] [:r 11 nil] [:append 11 44] [:append 9 12]]
+1	:fail	:txn	[[:r 11 nil] [:r 11 nil] [:append 11 44] [:append 9 12]]	:notleader
+1	:invoke	:txn	[[:append 11 45] [:append 11 46]]
+1	:fail	:txn	[[:append 11 45] [:append 11 46]]	:notleader
+1	:invoke	:txn	[[:r 11 nil] [:r 11 nil] [:r 10 nil]]
+1	:fail	:txn	[[:r 11 nil] [:r 11 nil] [:r 10 nil]]	:notleader
+1	:invoke	:txn	[[:r 11 nil] [:append 11 47]]
+1	:fail	:txn	[[:r 11 nil] [:append 11 47]]	:notleader
+1	:invoke	:txn	[[:r 11 nil] [:append 11 48]]
+1	:fail	:txn	[[:r 11 nil] [:append 11 48]]	:notleader
+1	:invoke	:txn	[[:r 10 nil] [:append 10 27]]
+1	:fail	:txn	[[:r 10 nil] [:append 10 27]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil]]
+1	:fail	:txn	[[:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil] [:r 11 nil] [:r 10 nil] [:append 11 49]]
+1	:fail	:txn	[[:r 11 nil] [:r 11 nil] [:r 10 nil] [:append 11 49]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil]]
+1	:fail	:txn	[[:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 11 50] [:append 11 51]]
+1	:fail	:txn	[[:append 11 50] [:append 11 51]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil] [:r 10 nil] [:append 11 52]]
+1	:fail	:txn	[[:r 11 nil] [:r 10 nil] [:append 11 52]]	:clusterdown
+1	:invoke	:txn	[[:append 11 53] [:r 10 nil] [:r 11 nil]]
+1	:fail	:txn	[[:append 11 53] [:r 10 nil] [:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:r 10 nil] [:append 7 2] [:append 10 28] [:r 10 nil]]
+1	:fail	:txn	[[:r 10 nil] [:append 7 2] [:append 10 28] [:r 10 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 10 29] [:append 9 13] [:r 11 nil] [:r 9 nil]]
+1	:fail	:txn	[[:append 10 29] [:append 9 13] [:r 11 nil] [:r 9 nil]]	:clusterdown
+1	:invoke	:txn	[[:r 7 nil] [:r 7 nil] [:append 9 14] [:append 11 54]]
+1	:fail	:txn	[[:r 7 nil] [:r 7 nil] [:append 9 14] [:append 11 54]]	:clusterdown
+1	:invoke	:txn	[[:r 10 nil]]
+1	:fail	:txn	[[:r 10 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 11 55] [:r 10 nil] [:append 11 56] [:append 8 8]]
+1	:fail	:txn	[[:append 11 55] [:r 10 nil] [:append 11 56] [:append 8 8]]	:clusterdown
+1	:invoke	:txn	[[:append 11 57]]
+1	:fail	:txn	[[:append 11 57]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil]]
+1	:fail	:txn	[[:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:r 4 nil] [:append 11 58]]
+1	:fail	:txn	[[:r 4 nil] [:append 11 58]]	:clusterdown
+1	:invoke	:txn	[[:r 6 nil] [:r 11 nil]]
+1	:fail	:txn	[[:r 6 nil] [:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:r 7 nil] [:r 9 nil] [:append 11 59]]
+1	:fail	:txn	[[:r 7 nil] [:r 9 nil] [:append 11 59]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil] [:append 11 60] [:append 11 61]]
+1	:fail	:txn	[[:r 11 nil] [:append 11 60] [:append 11 61]]	:clusterdown
+1	:invoke	:txn	[[:r 10 nil]]
+1	:fail	:txn	[[:r 10 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 8 9] [:append 11 62]]
+1	:fail	:txn	[[:append 8 9] [:append 11 62]]	:clusterdown
+1	:invoke	:txn	[[:append 11 63] [:append 11 64]]
+1	:fail	:txn	[[:append 11 63] [:append 11 64]]	:clusterdown
+1	:invoke	:txn	[[:append 11 65] [:r 11 nil] [:r 5 nil]]
+1	:fail	:txn	[[:append 11 65] [:r 11 nil] [:r 5 nil]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil] [:r 11 nil] [:append 11 66] [:append 11 67]]
+1	:fail	:txn	[[:r 11 nil] [:r 11 nil] [:append 11 66] [:append 11 67]]	:clusterdown
+1	:invoke	:txn	[[:append 10 30]]
+1	:fail	:txn	[[:append 10 30]]	:clusterdown
+1	:invoke	:txn	[[:append 11 68] [:r 11 nil] [:append 10 31] [:r 11 nil]]
+1	:fail	:txn	[[:append 11 68] [:r 11 nil] [:append 10 31] [:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 11 69] [:append 10 32] [:r 11 nil]]
+1	:fail	:txn	[[:append 11 69] [:append 10 32] [:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil] [:append 11 70]]
+1	:fail	:txn	[[:r 11 nil] [:append 11 70]]	:clusterdown
+1	:invoke	:txn	[[:append 8 10] [:append 9 15]]
+1	:fail	:txn	[[:append 8 10] [:append 9 15]]	:clusterdown
+1	:invoke	:txn	[[:append 9 16] [:append 10 33] [:append 11 71] [:append 9 17]]
+1	:fail	:txn	[[:append 9 16] [:append 10 33] [:append 11 71] [:append 9 17]]	:clusterdown
+1	:invoke	:txn	[[:append 9 18]]
+1	:fail	:txn	[[:append 9 18]]	:clusterdown
+1	:invoke	:txn	[[:append 10 34] [:append 11 72]]
+1	:fail	:txn	[[:append 10 34] [:append 11 72]]	:clusterdown
+1	:invoke	:txn	[[:append 8 11] [:r 9 nil]]
+1	:fail	:txn	[[:append 8 11] [:r 9 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 8 12]]
+1	:fail	:txn	[[:append 8 12]]	:clusterdown
+1	:invoke	:txn	[[:append 11 73] [:append 11 74] [:append 11 75] [:r 11 nil]]
+1	:fail	:txn	[[:append 11 73] [:append 11 74] [:append 11 75] [:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:r 10 nil] [:r 8 nil]]
+1	:fail	:txn	[[:r 10 nil] [:r 8 nil]]	:clusterdown
+1	:invoke	:txn	[[:r 10 nil]]
+1	:fail	:txn	[[:r 10 nil]]	:clusterdown
+1	:invoke	:txn	[[:r 9 nil] [:append 11 76] [:r 10 nil] [:append 8 13]]
+1	:fail	:txn	[[:r 9 nil] [:append 11 76] [:r 10 nil] [:append 8 13]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil] [:r 11 nil] [:r 8 nil] [:append 11 77]]
+1	:fail	:txn	[[:r 11 nil] [:r 11 nil] [:r 8 nil] [:append 11 77]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil]]
+1	:fail	:txn	[[:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil] [:r 11 nil]]
+1	:fail	:txn	[[:r 11 nil] [:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 11 78] [:append 11 79] [:r 8 nil] [:r 11 nil]]
+1	:fail	:txn	[[:append 11 78] [:append 11 79] [:r 8 nil] [:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 7 3] [:r 11 nil] [:r 11 nil]]
+1	:fail	:txn	[[:append 7 3] [:r 11 nil] [:r 11 nil]]	:clusterdown
+5	:fail	:txn	[[:r 11 nil] [:r 11 nil] [:append 11 41] [:r 11 nil]]	[:no-client Connection refused (Connection refused)]
+1	:invoke	:txn	[[:r 7 nil]]
+1	:fail	:txn	[[:r 7 nil]]	:clusterdown
+3	:fail	:txn	[[:r 9 nil] [:append 11 42] [:append 8 6]]	[:no-client Connection refused (Connection refused)]
+3	:invoke	:txn	[[:append 10 35]]
+5	:invoke	:txn	[[:append 10 36] [:r 6 nil]]
+1	:invoke	:txn	[[:append 10 37]]
+1	:fail	:txn	[[:append 10 37]]	:clusterdown
+1	:invoke	:txn	[[:append 7 4] [:append 11 80]]
+1	:fail	:txn	[[:append 7 4] [:append 11 80]]	:clusterdown
+1	:invoke	:txn	[[:r 9 nil] [:r 11 nil] [:append 10 38]]
+1	:fail	:txn	[[:r 9 nil] [:r 11 nil] [:append 10 38]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil]]
+1	:fail	:txn	[[:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 9 19]]
+1	:fail	:txn	[[:append 9 19]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil] [:append 10 39] [:r 11 nil]]
+1	:fail	:txn	[[:r 11 nil] [:append 10 39] [:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil] [:r 11 nil] [:append 9 20] [:r 7 nil]]
+1	:fail	:txn	[[:r 11 nil] [:r 11 nil] [:append 9 20] [:r 7 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 7 5] [:append 10 40]]
+1	:fail	:txn	[[:append 7 5] [:append 10 40]]	:clusterdown
+1	:invoke	:txn	[[:append 10 41] [:r 9 nil] [:r 11 nil]]
+1	:fail	:txn	[[:append 10 41] [:r 9 nil] [:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 10 42] [:r 11 nil]]
+1	:fail	:txn	[[:append 10 42] [:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil] [:r 11 nil] [:r 11 nil] [:append 10 43]]
+1	:fail	:txn	[[:r 11 nil] [:r 11 nil] [:r 11 nil] [:append 10 43]]	:clusterdown
+1	:invoke	:txn	[[:append 10 44] [:r 9 nil] [:append 11 81]]
+1	:fail	:txn	[[:append 10 44] [:r 9 nil] [:append 11 81]]	:clusterdown
+1	:invoke	:txn	[[:r 5 nil] [:append 9 21] [:r 10 nil] [:append 11 82]]
+1	:fail	:txn	[[:r 5 nil] [:append 9 21] [:r 10 nil] [:append 11 82]]	:clusterdown
+1	:invoke	:txn	[[:append 11 83]]
+1	:fail	:txn	[[:append 11 83]]	:clusterdown
+1	:invoke	:txn	[[:r 10 nil]]
+1	:fail	:txn	[[:r 10 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 11 84] [:r 10 nil] [:r 10 nil] [:r 10 nil]]
+1	:fail	:txn	[[:append 11 84] [:r 10 nil] [:r 10 nil] [:r 10 nil]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil] [:append 7 6] [:r 7 nil]]
+1	:fail	:txn	[[:r 11 nil] [:append 7 6] [:r 7 nil]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil]]
+1	:fail	:txn	[[:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 11 85]]
+1	:fail	:txn	[[:append 11 85]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil] [:r 8 nil] [:r 11 nil]]
+1	:fail	:txn	[[:r 11 nil] [:r 8 nil] [:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 11 86]]
+1	:fail	:txn	[[:append 11 86]]	:clusterdown
+1	:invoke	:txn	[[:r 7 nil] [:r 10 nil] [:r 9 nil] [:r 11 nil]]
+1	:fail	:txn	[[:r 7 nil] [:r 10 nil] [:r 9 nil] [:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:r 3 nil] [:append 11 87] [:append 11 88] [:append 8 14]]
+1	:fail	:txn	[[:r 3 nil] [:append 11 87] [:append 11 88] [:append 8 14]]	:clusterdown
+1	:invoke	:txn	[[:append 8 15] [:append 11 89]]
+1	:fail	:txn	[[:append 8 15] [:append 11 89]]	:clusterdown
+1	:invoke	:txn	[[:append 11 90]]
+1	:fail	:txn	[[:append 11 90]]	:clusterdown
+1	:invoke	:txn	[[:append 11 91] [:r 9 nil] [:append 10 45]]
+1	:fail	:txn	[[:append 11 91] [:r 9 nil] [:append 10 45]]	:clusterdown
+1	:invoke	:txn	[[:append 11 92] [:r 11 nil] [:append 8 16] [:r 11 nil]]
+1	:fail	:txn	[[:append 11 92] [:r 11 nil] [:append 8 16] [:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 10 46] [:r 11 nil] [:append 10 47]]
+1	:fail	:txn	[[:append 10 46] [:r 11 nil] [:append 10 47]]	:clusterdown
+1	:invoke	:txn	[[:r 7 nil] [:r 8 nil] [:append 10 48]]
+1	:fail	:txn	[[:r 7 nil] [:r 8 nil] [:append 10 48]]	:clusterdown
+1	:invoke	:txn	[[:append 11 93] [:r 11 nil]]
+1	:fail	:txn	[[:append 11 93] [:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil] [:r 11 nil] [:r 8 nil] [:r 10 nil]]
+1	:fail	:txn	[[:r 11 nil] [:r 11 nil] [:r 8 nil] [:r 10 nil]]	:clusterdown
+1	:invoke	:txn	[[:r 9 nil] [:r 9 nil] [:r 10 nil]]
+1	:fail	:txn	[[:r 9 nil] [:r 9 nil] [:r 10 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 8 17]]
+1	:fail	:txn	[[:append 8 17]]	:clusterdown
+1	:invoke	:txn	[[:append 10 49] [:r 11 nil] [:r 10 nil] [:append 10 50]]
+1	:fail	:txn	[[:append 10 49] [:r 11 nil] [:r 10 nil] [:append 10 50]]	:clusterdown
+1	:invoke	:txn	[[:append 6 1] [:r 10 nil] [:r 10 nil] [:append 9 22]]
+1	:fail	:txn	[[:append 6 1] [:r 10 nil] [:r 10 nil] [:append 9 22]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil]]
+1	:fail	:txn	[[:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 11 94] [:r 11 nil]]
+1	:fail	:txn	[[:append 11 94] [:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil] [:append 11 95]]
+1	:fail	:txn	[[:r 11 nil] [:append 11 95]]	:clusterdown
+1	:invoke	:txn	[[:r 6 nil] [:append 9 23]]
+1	:fail	:txn	[[:r 6 nil] [:append 9 23]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil] [:append 10 51]]
+1	:fail	:txn	[[:r 11 nil] [:append 10 51]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil]]
+1	:fail	:txn	[[:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 11 96] [:r 9 nil] [:append 10 52] [:append 9 24]]
+1	:fail	:txn	[[:append 11 96] [:r 9 nil] [:append 10 52] [:append 9 24]]	:clusterdown
+1	:invoke	:txn	[[:append 3 1] [:r 6 nil] [:r 10 nil] [:append 10 53]]
+1	:fail	:txn	[[:append 3 1] [:r 6 nil] [:r 10 nil] [:append 10 53]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil]]
+1	:fail	:txn	[[:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 11 97] [:r 11 nil] [:r 11 nil] [:append 11 98]]
+1	:fail	:txn	[[:append 11 97] [:r 11 nil] [:r 11 nil] [:append 11 98]]	:clusterdown
+3	:fail	:txn	[[:append 10 35]]	[:no-client Connection refused (Connection refused)]
+5	:fail	:txn	[[:append 10 36] [:r 6 nil]]	[:no-client Connection refused (Connection refused)]
+1	:invoke	:txn	[[:r 10 nil] [:append 10 54] [:append 11 99] [:r 11 nil]]
+1	:fail	:txn	[[:r 10 nil] [:append 10 54] [:append 11 99] [:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 11 100] [:r 11 nil] [:append 10 55]]
+1	:fail	:txn	[[:append 11 100] [:r 11 nil] [:append 10 55]]	:clusterdown
+5	:invoke	:txn	[[:r 11 nil] [:r 11 nil] [:append 11 101] [:append 11 102]]
+1	:invoke	:txn	[[:append 4 1] [:append 11 103] [:r 11 nil]]
+1	:fail	:txn	[[:append 4 1] [:append 11 103] [:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 11 104]]
+1	:fail	:txn	[[:append 11 104]]	:clusterdown
+1	:invoke	:txn	[[:append 11 105]]
+1	:fail	:txn	[[:append 11 105]]	:clusterdown
+3	:invoke	:txn	[[:append 9 25]]
+1	:invoke	:txn	[[:r 9 nil] [:append 9 26] [:append 11 106] [:append 9 27]]
+1	:fail	:txn	[[:r 9 nil] [:append 9 26] [:append 11 106] [:append 9 27]]	:clusterdown
+1	:invoke	:txn	[[:r 10 nil] [:append 11 107] [:r 10 nil] [:append 11 108]]
+1	:fail	:txn	[[:r 10 nil] [:append 11 107] [:r 10 nil] [:append 11 108]]	:clusterdown
+1	:invoke	:txn	[[:append 11 109] [:r 11 nil] [:append 11 110] [:append 10 56]]
+1	:fail	:txn	[[:append 11 109] [:r 11 nil] [:append 11 110] [:append 10 56]]	:clusterdown
+1	:invoke	:txn	[[:r 8 nil] [:append 11 111]]
+1	:fail	:txn	[[:r 8 nil] [:append 11 111]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil] [:append 11 112]]
+1	:fail	:txn	[[:r 11 nil] [:append 11 112]]	:clusterdown
+1	:invoke	:txn	[[:append 11 113] [:append 9 28]]
+1	:fail	:txn	[[:append 11 113] [:append 9 28]]	:clusterdown
+1	:invoke	:txn	[[:r 8 nil] [:r 11 nil]]
+1	:fail	:txn	[[:r 8 nil] [:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 10 57] [:r 11 nil]]
+1	:fail	:txn	[[:append 10 57] [:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 11 114] [:append 10 58] [:r 11 nil] [:r 6 nil]]
+1	:fail	:txn	[[:append 11 114] [:append 10 58] [:r 11 nil] [:r 6 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 6 2]]
+1	:fail	:txn	[[:append 6 2]]	:clusterdown
+1	:invoke	:txn	[[:append 11 115] [:append 8 18]]
+1	:fail	:txn	[[:append 11 115] [:append 8 18]]	:clusterdown
+:nemesis	:info	:start	:all
+1	:invoke	:txn	[[:append 11 116] [:append 11 117] [:append 11 118]]
+1	:fail	:txn	[[:append 11 116] [:append 11 117] [:append 11 118]]	:clusterdown
+:nemesis	:info	:start	{"n1" :started, "n2" :already-running, "n3" :started}
+1	:invoke	:txn	[[:append 7 7] [:r 10 nil] [:append 11 119] [:r 10 nil]]
+1	:fail	:txn	[[:append 7 7] [:r 10 nil] [:append 11 119] [:r 10 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 10 59] [:append 11 120]]
+1	:fail	:txn	[[:append 10 59] [:append 11 120]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil] [:append 11 121] [:append 11 122]]
+1	:fail	:txn	[[:r 11 nil] [:append 11 121] [:append 11 122]]	:clusterdown
+1	:invoke	:txn	[[:append 11 123] [:append 11 124] [:r 9 nil]]
+1	:fail	:txn	[[:append 11 123] [:append 11 124] [:r 9 nil]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil]]
+1	:fail	:txn	[[:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:r 11 nil] [:r 11 nil]]
+1	:fail	:txn	[[:r 11 nil] [:r 11 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 9 29]]
+1	:fail	:txn	[[:append 9 29]]	:clusterdown
+1	:invoke	:txn	[[:r 10 nil]]
+1	:fail	:txn	[[:r 10 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 9 30] [:append 11 125]]
+1	:fail	:txn	[[:append 9 30] [:append 11 125]]	:clusterdown
+1	:invoke	:txn	[[:r 10 nil] [:append 11 126] [:append 11 127]]
+1	:fail	:txn	[[:r 10 nil] [:append 11 126] [:append 11 127]]	:clusterdown
+1	:invoke	:txn	[[:append 11 128] [:r 12 nil] [:r 10 nil] [:append 7 8]]
+1	:fail	:txn	[[:append 11 128] [:r 12 nil] [:r 10 nil] [:append 7 8]]	:clusterdown
+1	:invoke	:txn	[[:append 12 1] [:r 12 nil] [:append 12 2]]
+1	:fail	:txn	[[:append 12 1] [:r 12 nil] [:append 12 2]]	:clusterdown
+1	:invoke	:txn	[[:append 12 3] [:r 12 nil]]
+1	:fail	:txn	[[:append 12 3] [:r 12 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 8 19]]
+1	:fail	:txn	[[:append 8 19]]	:clusterdown
+1	:invoke	:txn	[[:r 8 nil]]
+1	:fail	:txn	[[:r 8 nil]]	:clusterdown
+1	:invoke	:txn	[[:r 12 nil] [:r 12 nil] [:r 10 nil]]
+1	:fail	:txn	[[:r 12 nil] [:r 12 nil] [:r 10 nil]]	:clusterdown
+1	:invoke	:txn	[[:append 10 60] [:append 10 61] [:append 7 9] [:append 12 4]]
+1	:fail	:txn	[[:append 10 60] [:append 10 61] [:append 7 9] [:append 12 4]]	:clusterdown
+1	:invoke	:txn	[[:r 12 nil] [:append 10 62] [:r 10 nil] [:append 12 5]]
+1	:ok	:txn	[[:r 12 []] [:append 10 62] [:r 10 [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 62]] [:append 12 5]]
+1	:invoke	:txn	[[:r 12 nil] [:append 10 63] [:r 12 nil] [:append 9 31]]
+1	:ok	:txn	[[:r 12 [5]] [:append 10 63] [:r 12 [5]] [:append 9 31]]
+1	:invoke	:txn	[[:r 12 nil] [:append 12 6] [:append 10 64]]
+1	:ok	:txn	[[:r 12 [5]] [:append 12 6] [:append 10 64]]
+1	:invoke	:txn	[[:append 12 7] [:r 12 nil] [:r 9 nil] [:r 6 nil]]
+1	:ok	:txn	[[:append 12 7] [:r 12 [5 6 7]] [:r 9 [1 2 3 4 5 6 7 8 9 31]] [:r 6 []]]
+1	:invoke	:txn	[[:r 9 nil] [:r 9 nil]]
+1	:ok	:txn	[[:r 9 [1 2 3 4 5 6 7 8 9 31]] [:r 9 [1 2 3 4 5 6 7 8 9 31]]]
+1	:invoke	:txn	[[:append 10 65] [:r 8 nil]]
+1	:ok	:txn	[[:append 10 65] [:r 8 [1 2 3 4 5]]]
+1	:invoke	:txn	[[:r 12 nil] [:append 12 8] [:append 10 66]]
+:nemesis	:info	:kill	:majority
+1	:ok	:txn	[[:r 12 [5 6 7]] [:append 12 8] [:append 10 66]]
+1	:invoke	:txn	[[:r 12 nil] [:append 12 9]]
+1	:ok	:txn	[[:r 12 [5 6 7 8]] [:append 12 9]]
+1	:invoke	:txn	[[:r 12 nil]]
+1	:ok	:txn	[[:r 12 [5 6 7 8 9]]]
+1	:invoke	:txn	[[:append 9 32]]
+1	:ok	:txn	[[:append 9 32]]
+1	:invoke	:txn	[[:r 12 nil] [:append 12 10]]
+:nemesis	:info	:kill	{"n3" "", "n1" ""}
+5	:fail	:txn	[[:r 11 nil] [:r 11 nil] [:append 11 101] [:append 11 102]]	[:no-client Connection refused (Connection refused)]
+5	:invoke	:txn	[[:r 10 nil] [:r 12 nil] [:append 10 67] [:r 10 nil]]
+3	:fail	:txn	[[:append 9 25]]	[:no-client Connection refused (Connection refused)]
+3	:invoke	:txn	[[:append 9 33] [:append 10 68] [:r 6 nil] [:r 9 nil]]
+:nemesis	:info	:start-partition	:majorities-ring
+:nemesis	:info	:start-partition	[:isolated {"n1" #{"n3"}, "n3" #{"n2"}, "n2" #{"n1"}}]
+:nemesis	:info	:join	"n3"
+:nemesis	:info	:join	"n3"	indeterminate: throw+: {:type :can't-join-in-this-state, :node "n3", :members {"n1" {:state :live}, "n3" {:state :live}, "n2" {:state :live}}}
+5	:fail	:txn	[[:r 10 nil] [:r 12 nil] [:append 10 67] [:r 10 nil]]	[:no-client Connection refused (Connection refused)]
+5	:invoke	:txn	[[:r 12 nil] [:append 2 1]]
+3	:fail	:txn	[[:append 9 33] [:append 10 68] [:r 6 nil] [:r 9 nil]]	[:no-client Connection refused (Connection refused)]
+3	:invoke	:txn	[[:r 10 nil] [:append 12 11] [:r 7 nil] [:r 10 nil]]
+5	:fail	:txn	[[:r 12 nil] [:append 2 1]]	[:no-client Connection refused (Connection refused)]
+5	:invoke	:txn	[[:append 12 12] [:r 10 nil]]
+3	:fail	:txn	[[:r 10 nil] [:append 12 11] [:r 7 nil] [:r 10 nil]]	[:no-client Connection refused (Connection refused)]
+3	:invoke	:txn	[[:r 12 nil] [:r 12 nil] [:r 12 nil]]
+:nemesis	:info	:kill	:majority
+1	:info	:txn	[[:r 12 nil] [:append 12 10]]	:eof
+4	:invoke	:txn	[[:r 12 nil] [:r 12 nil] [:append 6 3]]
+:nemesis	:info	:kill	{"n2" "", "n3" nil}
+5	:fail	:txn	[[:append 12 12] [:r 10 nil]]	[:no-client Connection refused (Connection refused)]
+5	:invoke	:txn	[[:r 10 nil] [:r 9 nil]]
+3	:fail	:txn	[[:r 12 nil] [:r 12 nil] [:r 12 nil]]	[:no-client Connection refused (Connection refused)]
+3	:invoke	:txn	[[:r 7 nil]]
+:nemesis	:info	:join	"n1"
+:nemesis	:info	:join	"n1"	indeterminate: throw+: {:type :no-up-node-to-join-to, :node "n1"}
+4	:fail	:txn	[[:r 12 nil] [:r 12 nil] [:append 6 3]]	[:no-client Connection refused (Connection refused)]
+4	:invoke	:txn	[[:r 12 nil] [:append 8 20]]
+:nemesis	:info	:resume	:all
+:nemesis	:info	:resume	{"n1" "", "n2" "", "n3" ""}
+5	:fail	:txn	[[:r 10 nil] [:r 9 nil]]	[:no-client Connection refused (Connection refused)]
+5	:invoke	:txn	[[:r 12 nil]]
+3	:fail	:txn	[[:r 7 nil]]	[:no-client Connection refused (Connection refused)]
+3	:invoke	:txn	[[:r 8 nil]]
+:nemesis	:info	:kill	:majority
+:nemesis	:info	:kill	{"n1" nil, "n2" nil}
+4	:fail	:txn	[[:r 12 nil] [:append 8 20]]	[:no-client Connection refused (Connection refused)]
+4	:invoke	:txn	[[:r 12 nil] [:append 12 13] [:append 12 14]]
+:nemesis	:info	:join	"n1"
+:nemesis	:info	:join	"n1"	indeterminate: throw+: {:type :no-up-node-to-join-to, :node "n1"}
+5	:fail	:txn	[[:r 12 nil]]	[:no-client Connection refused (Connection refused)]
+5	:invoke	:txn	[[:r 10 nil] [:r 12 nil]]
+3	:fail	:txn	[[:r 8 nil]]	[:no-client Connection refused (Connection refused)]
+3	:invoke	:txn	[[:r 9 nil] [:append 9 34] [:r 10 nil]]
+:nemesis	:info	:kill	:primaries
+:nemesis	:info	:kill	{}
+4	:fail	:txn	[[:r 12 nil] [:append 12 13] [:append 12 14]]	[:no-client Connection refused (Connection refused)]
+4	:invoke	:txn	[[:r 12 nil] [:r 12 nil] [:r 7 nil] [:append 12 15]]
+5	:fail	:txn	[[:r 10 nil] [:r 12 nil]]	[:no-client Connection refused (Connection refused)]
+5	:invoke	:txn	[[:r 9 nil] [:append 9 35]]
+3	:fail	:txn	[[:r 9 nil] [:append 9 34] [:r 10 nil]]	[:no-client Connection refused (Connection refused)]
+3	:invoke	:txn	[[:append 12 16] [:append 12 17] [:append 12 18] [:r 12 nil]]
+:nemesis	:info	:pause	:majority
+:nemesis	:info	:pause	{"n1" "", "n2" ""}
+4	:fail	:txn	[[:r 12 nil] [:r 12 nil] [:r 7 nil] [:append 12 15]]	[:no-client Connection refused (Connection refused)]
+4	:invoke	:txn	[[:r 12 nil] [:append 12 19]]
+:nemesis	:info	:join	"n3"
+:nemesis	:info	:join	"n3"	indeterminate: throw+: {:type :no-up-node-to-join-to, :node "n3"}
+5	:fail	:txn	[[:r 9 nil] [:append 9 35]]	[:no-client Connection refused (Connection refused)]
+5	:invoke	:txn	[[:append 8 21] [:r 9 nil] [:append 10 69]]
+3	:fail	:txn	[[:append 12 16] [:append 12 17] [:append 12 18] [:r 12 nil]]	[:no-client Connection refused (Connection refused)]
+3	:invoke	:txn	[[:append 10 70]]
+:nemesis	:info	:resume	:all
+:nemesis	:info	:resume	{"n1" "", "n2" "", "n3" ""}
+4	:fail	:txn	[[:r 12 nil] [:append 12 19]]	[:no-client Connection refused (Connection refused)]
+4	:invoke	:txn	[[:append 12 20]]
+:nemesis	:info	:start-partition	:majorities-ring
+:nemesis	:info	:start-partition	[:isolated {"n1" #{"n2"}, "n2" #{"n3"}, "n3" #{"n1"}}]
+5	:fail	:txn	[[:append 8 21] [:r 9 nil] [:append 10 69]]	[:no-client Connection refused (Connection refused)]
+5	:invoke	:txn	[[:r 12 nil] [:r 10 nil] [:r 12 nil] [:append 12 21]]
+3	:fail	:txn	[[:append 10 70]]	[:no-client Connection refused (Connection refused)]
+3	:invoke	:txn	[[:r 10 nil] [:r 7 nil] [:r 5 nil]]
+:nemesis	:info	:start	:all
+:nemesis	:info	:start	{"n1" :started, "n2" :started, "n3" :started}
+4	:fail	:txn	[[:append 12 20]]	[:no-client Connection refused (Connection refused)]
+4	:invoke	:txn	[[:r 10 nil]]
+4	:info	:txn	[[:r 10 nil]]	indeterminate: LOADING Raft module is loading data
+7	:invoke	:txn	[[:r 10 nil] [:r 12 nil] [:append 10 71]]
+7	:fail	:txn	[[:r 10 nil] [:r 12 nil] [:append 10 71]]	:clusterdown
+7	:invoke	:txn	[[:r 12 nil]]
+7	:fail	:txn	[[:r 12 nil]]	:clusterdown
+7	:invoke	:txn	[[:append 8 22] [:append 8 23]]
+7	:fail	:txn	[[:append 8 22] [:append 8 23]]	:clusterdown
+7	:invoke	:txn	[[:r 12 nil] [:r 12 nil]]
+7	:fail	:txn	[[:r 12 nil] [:r 12 nil]]	:clusterdown
+7	:invoke	:txn	[[:r 12 nil] [:r 12 nil]]
+7	:fail	:txn	[[:r 12 nil] [:r 12 nil]]	:clusterdown
+7	:invoke	:txn	[[:r 12 nil] [:append 12 22]]
+7	:fail	:txn	[[:r 12 nil] [:append 12 22]]	:clusterdown
+7	:invoke	:txn	[[:append 12 23] [:append 9 36] [:append 12 24] [:append 10 72]]
+7	:fail	:txn	[[:append 12 23] [:append 9 36] [:append 12 24] [:append 10 72]]	:clusterdown
+7	:invoke	:txn	[[:r 7 nil]]
+7	:fail	:txn	[[:r 7 nil]]	:clusterdown
+7	:invoke	:txn	[[:r 12 nil] [:r 12 nil] [:append 12 25]]
+7	:fail	:txn	[[:r 12 nil] [:r 12 nil] [:append 12 25]]	:clusterdown
+7	:invoke	:txn	[[:r 7 nil]]
+7	:fail	:txn	[[:r 7 nil]]	:clusterdown
+7	:invoke	:txn	[[:r 12 nil] [:r 7 nil] [:append 10 73]]
+7	:fail	:txn	[[:r 12 nil] [:r 7 nil] [:append 10 73]]	:clusterdown
+7	:invoke	:txn	[[:append 5 2] [:r 12 nil] [:r 10 nil]]
+7	:fail	:txn	[[:append 5 2] [:r 12 nil] [:r 10 nil]]	:clusterdown
+7	:invoke	:txn	[[:r 12 nil] [:append 10 74]]
+7	:fail	:txn	[[:r 12 nil] [:append 10 74]]	:clusterdown
+7	:invoke	:txn	[[:append 12 26]]
+7	:fail	:txn	[[:append 12 26]]	:clusterdown
+7	:invoke	:txn	[[:r 12 nil] [:append 10 75] [:append 10 76]]
+7	:fail	:txn	[[:r 12 nil] [:append 10 75] [:append 10 76]]	:clusterdown
+7	:invoke	:txn	[[:r 12 nil] [:append 12 27] [:r 12 nil]]
+7	:fail	:txn	[[:r 12 nil] [:append 12 27] [:r 12 nil]]	:clusterdown
+7	:invoke	:txn	[[:r 12 nil] [:r 12 nil] [:r 9 nil] [:r 10 nil]]
+7	:fail	:txn	[[:r 12 nil] [:r 12 nil] [:r 9 nil] [:r 10 nil]]	:clusterdown
+7	:invoke	:txn	[[:append 12 28] [:append 12 29] [:append 10 77]]
+7	:fail	:txn	[[:append 12 28] [:append 12 29] [:append 10 77]]	:clusterdown
+7	:invoke	:txn	[[:r 10 nil]]
+7	:fail	:txn	[[:r 10 nil]]	:clusterdown
+7	:invoke	:txn	[[:r 10 nil]]
+7	:fail	:txn	[[:r 10 nil]]	:clusterdown
+7	:invoke	:txn	[[:append 12 30] [:r 10 nil]]
+7	:fail	:txn	[[:append 12 30] [:r 10 nil]]	:clusterdown
+7	:invoke	:txn	[[:r 12 nil] [:r 9 nil] [:append 9 37]]
+7	:fail	:txn	[[:r 12 nil] [:r 9 nil] [:append 9 37]]	:clusterdown
+5	:fail	:txn	[[:r 12 nil] [:r 10 nil] [:r 12 nil] [:append 12 21]]	[:no-client Connection refused (Connection refused)]
+3	:fail	:txn	[[:r 10 nil] [:r 7 nil] [:r 5 nil]]	[:no-client Connection refused (Connection refused)]

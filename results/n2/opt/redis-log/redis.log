@@ -1,0 +1,75 @@
+2025-06-16 06:34:37 Jepsen starting  /opt/redis/redis-server --protected-mode no --bind 0.0.0.0 --dbfilename redis.rdb --loadmodule /opt/redis/redisraft.so --raft.loglevel debug --raft.log-filename raftlog.db --raft.log-max-file-size 32000 --raft.log-max-cache-size 1000000 --raft.follower-proxy yes
+11866:C 16 Jun 2025 06:34:37.455 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+11866:C 16 Jun 2025 06:34:37.455 * Redis version=255.255.255, bits=64, commit=48ea17f0, modified=0, pid=11866, just started
+11866:C 16 Jun 2025 06:34:37.455 * Configuration loaded
+11866:M 16 Jun 2025 06:34:37.458 * Increased maximum number of open files to 10032 (it was originally set to 1024).
+11866:M 16 Jun 2025 06:34:37.458 * monotonic clock: POSIX clock_gettime
+11866:M 16 Jun 2025 06:34:37.461 * Running mode=standalone, port=6379.
+11866:M 16 Jun 2025 06:34:37.462 * <raft> RedisRaft version 255.255.255 [5b53a293]
+11866:M 16 Jun 2025 06:34:37.498 * <raft> Raft module loaded, state is 'uninitialized'
+11866:M 16 Jun 2025 06:34:37.498 * Module 'raft' loaded from /opt/redis/redisraft.so
+11866:M 16 Jun 2025 06:34:37.499 * Server initialized
+11866:M 16 Jun 2025 06:34:37.499 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+11866:M 16 Jun 2025 06:34:37.499 * Ready to accept connections tcp
+11866:M 16 Jun 2025 06:34:38.638 # Missing implement of connection type tls
+11866:M 16 Jun 2025 06:34:38.742 * <raft> Joined Raft cluster, node id: 1558745765, dbid: b4b202201563293510c8698508d49476
+11866:M 16 Jun 2025 06:34:48.356 * <raft> State change: Election starting, node is now a pre-candidate, term 1
+11866:M 16 Jun 2025 06:34:48.356 * <raft> Cluster Membership: term:1 index:53 nodes: id=1558745765,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1690738726,voting=1,active=1,addr=172.19.0.4:6379
+11866:M 16 Jun 2025 06:34:50.367 * <raft> State change: Election starting, node is now a pre-candidate, term 1
+11866:M 16 Jun 2025 06:34:50.367 * <raft> Cluster Membership: term:1 index:53 nodes: id=1558745765,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1690738726,voting=1,active=1,addr=172.19.0.4:6379
+11866:M 16 Jun 2025 06:34:51.476 * <raft> State change: Election starting, node is now a pre-candidate, term 1
+11866:M 16 Jun 2025 06:34:51.476 * <raft> Cluster Membership: term:1 index:53 nodes: id=1558745765,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1690738726,voting=1,active=1,addr=172.19.0.4:6379
+11866:M 16 Jun 2025 06:34:52.783 * <raft> State change: Election starting, node is now a pre-candidate, term 1
+11866:M 16 Jun 2025 06:34:52.783 * <raft> Cluster Membership: term:1 index:53 nodes: id=1558745765,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1690738726,voting=1,active=1,addr=172.19.0.4:6379
+11866:M 16 Jun 2025 06:34:53.989 * <raft> State change: Election starting, node is now a pre-candidate, term 1
+11866:M 16 Jun 2025 06:34:53.989 * <raft> Cluster Membership: term:1 index:53 nodes: id=1558745765,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1690738726,voting=1,active=1,addr=172.19.0.4:6379
+11866:M 16 Jun 2025 06:34:55.699 * <raft> State change: Election starting, node is now a pre-candidate, term 1
+11866:M 16 Jun 2025 06:34:55.699 * <raft> Cluster Membership: term:1 index:53 nodes: id=1558745765,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1690738726,voting=1,active=1,addr=172.19.0.4:6379
+11866:M 16 Jun 2025 06:34:56.804 * <raft> State change: Election starting, node is now a pre-candidate, term 1
+11866:M 16 Jun 2025 06:34:56.804 * <raft> Cluster Membership: term:1 index:53 nodes: id=1558745765,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1690738726,voting=1,active=1,addr=172.19.0.4:6379
+11866:M 16 Jun 2025 06:34:58.514 * <raft> State change: Election starting, node is now a pre-candidate, term 1
+11866:M 16 Jun 2025 06:34:58.514 * <raft> Cluster Membership: term:1 index:53 nodes: id=1558745765,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1690738726,voting=1,active=1,addr=172.19.0.4:6379
+2025-06-16 06:34:59 Jepsen starting  /opt/redis/redis-server --protected-mode no --bind 0.0.0.0 --dbfilename redis.rdb --loadmodule /opt/redis/redisraft.so --raft.loglevel debug --raft.log-filename raftlog.db --raft.log-max-file-size 32000 --raft.log-max-cache-size 1000000 --raft.follower-proxy yes
+/opt/redis/redis-server already running.
+11866:M 16 Jun 2025 06:35:00.325 * <raft> State change: Election starting, node is now a pre-candidate, term 1
+11866:M 16 Jun 2025 06:35:00.325 * <raft> Cluster Membership: term:1 index:53 nodes: id=1558745765,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1690738726,voting=1,active=1,addr=172.19.0.4:6379
+11866:M 16 Jun 2025 06:35:00.518 * <raft> State change: Node is now a candidate, term 2
+11866:M 16 Jun 2025 06:35:00.518 * <raft> Cluster Membership: term:2 index:53 nodes: id=1558745765,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1690738726,voting=1,active=1,addr=172.19.0.4:6379
+11866:M 16 Jun 2025 06:35:00.805 * <raft> State change: Node is now a leader, term 2
+11866:M 16 Jun 2025 06:35:00.805 * <raft> Cluster Membership: term:2 index:54 nodes: id=1558745765,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1690738726,voting=1,active=1,addr=172.19.0.4:6379
+11866:M 16 Jun 2025 06:35:04.741 * <raft> State change: Node is now a follower, term 2
+11866:M 16 Jun 2025 06:35:04.741 * <raft> Cluster Membership: term:2 index:63 nodes: id=1558745765,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1690738726,voting=1,active=1,addr=172.19.0.4:6379
+11866:M 16 Jun 2025 06:35:05.947 * <raft> State change: Election starting, node is now a pre-candidate, term 2
+11866:M 16 Jun 2025 06:35:05.947 * <raft> Cluster Membership: term:2 index:63 nodes: id=1558745765,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1690738726,voting=1,active=1,addr=172.19.0.4:6379
+11866:M 16 Jun 2025 06:35:07.957 * <raft> State change: Election starting, node is now a pre-candidate, term 2
+11866:M 16 Jun 2025 06:35:07.957 * <raft> Cluster Membership: term:2 index:63 nodes: id=1558745765,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1690738726,voting=1,active=1,addr=172.19.0.4:6379
+11866:M 16 Jun 2025 06:35:09.666 * <raft> State change: Election starting, node is now a pre-candidate, term 2
+11866:M 16 Jun 2025 06:35:09.666 * <raft> Cluster Membership: term:2 index:63 nodes: id=1558745765,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1690738726,voting=1,active=1,addr=172.19.0.4:6379
+11866:M 16 Jun 2025 06:35:11.174 * <raft> State change: Election starting, node is now a pre-candidate, term 2
+11866:M 16 Jun 2025 06:35:11.174 * <raft> Cluster Membership: term:2 index:63 nodes: id=1558745765,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1690738726,voting=1,active=1,addr=172.19.0.4:6379
+11866:M 16 Jun 2025 06:35:12.481 * <raft> State change: Election starting, node is now a pre-candidate, term 2
+11866:M 16 Jun 2025 06:35:12.481 * <raft> Cluster Membership: term:2 index:63 nodes: id=1558745765,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1690738726,voting=1,active=1,addr=172.19.0.4:6379
+11866:M 16 Jun 2025 06:35:13.587 * <raft> State change: Election starting, node is now a pre-candidate, term 2
+11866:M 16 Jun 2025 06:35:13.587 * <raft> Cluster Membership: term:2 index:63 nodes: id=1558745765,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1690738726,voting=1,active=1,addr=172.19.0.4:6379
+2025-06-16 06:35:44 Jepsen starting  /opt/redis/redis-server --protected-mode no --bind 0.0.0.0 --dbfilename redis.rdb --loadmodule /opt/redis/redisraft.so --raft.loglevel debug --raft.log-filename raftlog.db --raft.log-max-file-size 32000 --raft.log-max-cache-size 1000000 --raft.follower-proxy yes
+12369:C 16 Jun 2025 06:35:44.270 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+12369:C 16 Jun 2025 06:35:44.270 * Redis version=255.255.255, bits=64, commit=48ea17f0, modified=0, pid=12369, just started
+12369:C 16 Jun 2025 06:35:44.270 * Configuration loaded
+12369:M 16 Jun 2025 06:35:44.273 * Increased maximum number of open files to 10032 (it was originally set to 1024).
+12369:M 16 Jun 2025 06:35:44.273 * monotonic clock: POSIX clock_gettime
+12369:M 16 Jun 2025 06:35:44.276 * Running mode=standalone, port=6379.
+12369:M 16 Jun 2025 06:35:44.277 * <raft> RedisRaft version 255.255.255 [5b53a293]
+12369:M 16 Jun 2025 06:35:44.314 * <raft> Raft module loaded, state is 'loading'
+12369:M 16 Jun 2025 06:35:44.314 * Module 'raft' loaded from /opt/redis/redisraft.so
+12369:M 16 Jun 2025 06:35:44.314 * Server initialized
+12369:M 16 Jun 2025 06:35:44.315 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+12369:M 16 Jun 2025 06:35:44.315 * Ready to accept connections tcp
+12369:M 16 Jun 2025 06:35:44.327 # Missing implement of connection type tls
+12369:M 16 Jun 2025 06:35:44.415 * <raft> Loading: Redis loading complete, snapshot NOT LOADED
+12369:M 16 Jun 2025 06:35:44.416 * <raft> Raft state after loading log: log_count=63, first_idx=1, current_idx=63, last_applied_idx=0
+12369:M 16 Jun 2025 06:35:45.925 * <raft> State change: Election starting, node is now a pre-candidate, term 2
+12369:M 16 Jun 2025 06:35:45.925 * <raft> Cluster Membership: term:2 index:63 nodes: id=1558745765,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1690738726,voting=1,active=1,addr=172.19.0.4:6379
+12369:M 16 Jun 2025 06:35:46.092 * <raft> State change: Node is now a candidate, term 3
+12369:M 16 Jun 2025 06:35:46.092 * <raft> Cluster Membership: term:3 index:63 nodes: id=1558745765,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1690738726,voting=1,active=1,addr=172.19.0.4:6379
+12369:M 16 Jun 2025 06:35:46.415 * <raft> State change: Node is now a leader, term 3
+12369:M 16 Jun 2025 06:35:46.415 * <raft> Cluster Membership: term:3 index:64 nodes: id=1558745765,voting=1,active=1,addr=- id=65723086,voting=1,active=1,addr=172.19.0.2:6379 id=1690738726,voting=1,active=1,addr=172.19.0.4:6379
