@@ -126,7 +126,8 @@ fn packet_sniff_loop() {
     let host_addr = local_ip().unwrap();
     assert!(
         experiment_network.contains(host_addr),
-        "The host address should be in the experiment network!"
+        "The host address should be in the experiment network! Host addr: {}",
+        host_addr.to_string()
     );
     let host_ip = host_addr.to_string();
 

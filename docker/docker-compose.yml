@@ -75,6 +75,9 @@ services:
     # volumes:
     #   - redis-logs:/opt/redis-log
     hostname: n1
+    networks:
+      jepsen:
+        ipv4_address: 172.18.0.2
     depends_on:
       - _build_node_image
 
@@ -84,6 +87,9 @@ services:
     # volumes:
     #   - redis-logs:/opt/redis-log
     hostname: n2
+    networks:
+      jepsen:
+        ipv4_address: 172.18.0.3
     depends_on:
       - _build_node_image
       - n1
@@ -94,6 +100,9 @@ services:
     # volumes:
     #   - redis-logs:/opt/redis-log
     hostname: n3
+    networks:
+      jepsen:
+        ipv4_address: 172.18.0.4
     depends_on:
       - _build_node_image
       - n2

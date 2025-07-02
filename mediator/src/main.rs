@@ -775,16 +775,18 @@ fn read_configuration(schedule_type: &String, feedback_type: &String, state_simi
     let exp_ifaces = net::util::get_experiment_interfaces(experiment_network)?;
     let num_nodes = exp_ifaces.len() as u8;
     // Logging is not yet configured when configuration is read, so we print to stderr
-    eprintln!("[CFG] Found {} nodes:", num_nodes);
-    let node_ips = (1..=num_nodes)
-        // we cannot use format! on a non-literal string, so we cheat a little bit
-        .map(|i| node_name_format.replacen("{}", &i.to_string(), 1))
-        .map(|name| {
-            let ip = net::util::resolve_to_experiment_ip(&name, experiment_network);
-            eprintln!("  {} -> {}", name, ip);
-            ip
-        })
-        .collect();
+    // eprintln!("[CFG] Found {} nodes:", num_nodes);
+    // Hardcoding it and fixing it in the docker compose.
+    let node_ips = vec!["172.18.0.2".to_string(), "172.18.0.3".to_string(), "172.18.0.4".to_string()];
+    // let node_ips = (1..=num_nodes)
+    //     // we cannot use format! on a non-literal string, so we cheat a little bit
+    //     .map(|i| node_name_format.replacen("{}", &i.to_string(), 1))
+    //     .map(|name| {
+    //         let ip = net::util::resolve_to_experiment_ip(&name, experiment_network);
+    //         eprintln!("  {} -> {}", name, ip);
+    //         ip
+    //     })
+    //     .collect();
 
     let schedule_type = schedule_type.clone();
     let feedback_type = feedback_type.clone();

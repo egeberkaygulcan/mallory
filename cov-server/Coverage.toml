@@ -1,7 +1,7 @@
 iptables_rules_filename = '/tmp/iptables-rules.txt'
 
 # Packets
-experiment_network = "10.1.0.0/16"
+experiment_network = "172.18.0.0/16"
 nfqueue_queue_num = 1
 nfqueue_max_len = 131072 # number of packets to queue
 
