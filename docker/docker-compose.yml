@@ -6,7 +6,7 @@ x-node:
   env_file: ./secret/node.env
   secrets:
     - authorized_keys
-  tty: false
+  tty: true
   tmpfs:
     - /run:size=100M
     - /run/lock:size=100M
@@ -14,7 +14,7 @@ x-node:
   volumes:
     - "jepsen-shared:/var/jepsen/shared"
     - "../jepsen:/host"
-    - "/dev:/dev"
+    # - "/dev:/dev"
     - "/lib/modules:/lib/modules"
   devices:
     - "/dev/fuse"

@@ -177,6 +177,14 @@ if [ "${INIT_ONLY}" -eq 1 ]; then
     exit 0
 fi
 
+
+rm -rf .node/redisraft
+
+if [ -d "../redisraft" ]; then
+    rm -rf ../redisraft/build
+    cp -r ../redisraft node/redisraft
+fi
+
 exists docker ||
     { ERROR "Please install docker (https://docs.docker.com/engine/installation/)";
       exit 1; }

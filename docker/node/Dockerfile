@@ -191,7 +191,17 @@ RUN mkdir /opt/redis
 WORKDIR /opt/fs
 # redis: 7.0.10; redisraft: 7b460794(Arp4,2023)
 RUN git clone -b jepsen-unstable https://github.com/mengrj/redis.git
-RUN git clone -b newer-jepsen-testing https://github.com/mengrj/redisraft.git
+# RUN git clone -b newer-jepsen-testing https://github.com/mengrj/redisraft.git
+ADD redisraft .
+
+RUN mkdir /opt/json-c && cd /opt/json-c \
+    && git clone https://github.com/json-c/json-c \
+    && mkdir json-c-build \
+    && cd json-c-build \
+    && cmake ../json-c \
+    && make \
+    && make install
+
 WORKDIR /opt/fs
 RUN cd redis && python3 /opt/instrumentor/tell_instr_targets.py --input ./src --output .
 

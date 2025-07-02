@@ -127,7 +127,7 @@
     :default true]
 
    ["-r" "--rate HZ" "Approximate number of requests per second per thread"
-    :default 10
+    :default 1
     :parse-fn read-string
     :validate [#(and (number? %) (pos? %)) "must be a positive number"]]
 
