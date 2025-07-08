@@ -40,6 +40,9 @@ secrets:
 networks:
   jepsen:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
 
 services:
   _build_node_image:

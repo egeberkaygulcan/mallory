@@ -206,6 +206,7 @@ WORKDIR /opt/fs
 RUN cd redis && python3 /opt/instrumentor/tell_instr_targets.py --input ./src --output .
 
 WORKDIR /opt/fs
+RUN ls -la /opt/fs && ls -la /opt/fs/redisraft
 RUN cd redisraft && python3 /opt/instrumentor/tell_instr_targets.py --input ./src --output .
 
 ENV CXX=/opt/instrumentor/llvm_mode/afl-clang-fast++
