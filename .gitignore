@@ -1,3 +1,5 @@
 tests/mallory/redisraft/target
 mediator/target
 mediator/Cargo.lock
+mediator/out.txt
+docker/out.txt

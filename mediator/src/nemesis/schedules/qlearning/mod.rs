@@ -2,6 +2,7 @@ pub mod agent;
 mod policies;
 mod states;
 
+use std::any::Any;
 use nalgebra::DVector;
 
 pub use super::{ActionId, StateId, StepId};

@@ -47,10 +47,7 @@ rm -rf "$log_dir"
 mkdir -p "$log_dir"
 
 # Build the mediator
-cd /host/mediator &&
-    apt-get install musl-tools -y &&
-    rustup target add x86_64-unknown-linux-musl &&
-    RUSTFLAGS="-C target-cpu=generic" cargo build --release --target=x86_64-unknown-linux-musl
+cd /host/mediator && apt-get install musl-tools -y && rustup target add x86_64-unknown-linux-musl && RUSTFLAGS="-C target-cpu=generic" cargo build --release --target=x86_64-unknown-linux-musl
 
 # Traverse the subjects
 for ((subject_idx = 0; subject_idx < "${#subjects[@]}"; subject_idx++)); do

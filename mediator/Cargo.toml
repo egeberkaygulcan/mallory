@@ -20,6 +20,7 @@ lto = "thin"
 rocket = { version = "0.5.0-rc.2", features = ["json"] }
 ron = "0.8"
 serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
 reqwest = { version = "0.11.12", default-features = false, features = [
     "rustls-tls",
 ] }
@@ -73,7 +74,7 @@ byteorder = "1.4.3"
 edn-format = "3.2.3"
 murmur3 = "0.5.2"
 # To use get_many_mut, which is still Nightly-only for std HashMap
-hashbrown = "0.13.1"
+hashbrown = { version = "0.13.1", features = ["serde"] }
 enum_dispatch = "0.3.11"
 ordered-float = "3.4.0"
 tempfile = "3.3.0"

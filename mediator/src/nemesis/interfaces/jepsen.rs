@@ -1,5 +1,5 @@
-use std::{collections::BTreeMap, error::Error, fmt, sync::Arc};
-
+use std::{collections::BTreeMap, error::Error, fmt, sync::Arc, any::Any};
+use crate::nemesis::schedules::qlearning::agent::QLearningScheduler;
 use antidote::Mutex;
 use chrono::{DateTime, Utc};
 use edn_format::{Keyword, Value};
@@ -233,6 +233,10 @@ impl AdaptiveNemesis for JepsenAdaptiveNemesis {
 }
 
 impl JepsenAdaptiveNemesis {
+    fn save_qtable_if_exists(&self) {
+        self.schedule_manager.save_qtable_if_exists();
+    }
+
     pub fn new(setup_str: &str, history: Arc<History>, cfg: &MediatorConfig) -> Self {
         let nemeses = match parse_config_str(setup_str) {
             Ok(cfg) => cfg,
@@ -285,6 +289,10 @@ impl JepsenAdaptiveNemesis {
             history,
             actions,
         }
+    }
+
+    pub fn save_qtable(&self) {
+        self.schedule_manager.save_qtable_if_exists();
     }
 
     pub fn is_nemesis_operation(unparsed_event: &str) -> bool {

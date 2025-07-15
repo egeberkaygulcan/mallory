@@ -119,6 +119,8 @@ static HISTORY: Storage<Arc<History>> = Storage::new();
 static NEMESIS: Storage<Arc<JepsenAdaptiveNemesis>> = Storage::new();
 // We reuse a single Client rather than spawning one whenever needed.
 static CLIENT: Storage<reqwest::Client> = Storage::new();
+// Monotonic counter for test iterations (0, 1, 2, …)
+static ITERATION_ID: AtomicUsize = AtomicUsize::new(0);
 
 /************************************
  * Test related functions and logic *
@@ -162,15 +164,28 @@ fn end_test(shutdown: rocket::Shutdown) {
     let mut end_time = run.end_time.write();
     **end_time = ClockManager::utc_now();
 
-    // let n = NEMESIS.get();
-    // n.execution_ended();
-
     log::info!("Ended test stored at {}", *run.store_path.read());
-    // let h = &HISTORY.get().history;
-    // h.summarise();
-
     dump_run();
-    shutdown.notify();
+    // shutdown.notify();
+
+    if let Some(nem) = NEMESIS.try_get() {
+        nem.save_qtable();
+    }
+
+    let old_start: DateTime<Utc> = *(run.start_time.read().clone());
+    let old_end:   DateTime<Utc> = *(run.end_time.read().clone());
+
+    let new_start = ClockManager::utc_now();
+
+    let iter = ITERATION_ID.fetch_add(1, Ordering::Relaxed);
+
+    if let Some(nem) = NEMESIS.try_get() {
+        nem.notify_schedule_start(iter, old_start, old_end, new_start);
+    }
+
+    run.start_new_history(iter, old_start, old_end, new_start);
+
+    log::info!("Mediator reset complete—ready for next /test/start.");
 }
 
 // Note: you need to collect::<Vec<_>>() to actually execute these!
@@ -665,7 +680,7 @@ fn nfqueue_loop(nfqueue: &mut nfq::Queue) -> Result<(), Box<dyn Error>> {
             // Maybe the queue filled up and the packet got dropped?
             if let Err(msg) = nfqueue.verdict(
                 pkt.msg
-                    .expect("tried to issue verdict for packet without nfqueue `msg`"),
+                    .expect("tried to issue verdict for packet without nfqueue msg"),
             ) {
                 log::warn!("Error issuing verdict for {:#?}!", msg);
             }
@@ -714,16 +729,16 @@ fn nfqueue_loop(nfqueue: &mut nfq::Queue) -> Result<(), Box<dyn Error>> {
             // Rather, we postpone the decision until the packet is ready to be sent.
             // WARNING: because the kernel uses a linked-list to store the queued packets,
             // performance may degrade if packets are delayed for a long time.
-            // Also, if `nfqueue_max_len` is exceeded, packets are dropped without warning.
+            // Also, if nfqueue_max_len is exceeded, packets are dropped without warning.
         } else {
             // We've cleared the kernel queue, so it should be the case that
             // we will not receive packets with timestamp before the start of this function.
-            // Moreover, if we've emitted all packets, i.e., both `unprocessed_packets`
-            // and `unreleased_packets` are empty, then we can be sure no more packets
-            // will ever be added with a timestamp before `loop_start_time`.
+            // Moreover, if we've emitted all packets, i.e., both unprocessed_packets
+            // and unreleased_packets are empty, then we can be sure no more packets
+            // will ever be added with a timestamp before loop_start_time.
 
             // NOTE that we may still receive Jepsen ops "in the past", which is
-            // why the `submitted_all_before` function actually registers a watermark
+            // why the submitted_all_before function actually registers a watermark
             // a few seconds before the passed argument.
             // TODO: we should handle Jepsen ops properly, without relying on delays.
             // That requires adding a sequence number/heartbeat mechanism to Jepsen.

@@ -4,6 +4,7 @@ use rand::Rng;
 use std::cmp;
 use std::fmt;
 use std::sync::atomic::{AtomicI32, AtomicU16, Ordering};
+use std::any::Any;
 
 use crate::{
     feedback::{
@@ -310,6 +311,9 @@ impl DiscreteStepScheduler for PowerScheduler {
 
         action
     }
+
+    fn as_any(&self) -> &dyn Any { self }
+    fn as_any_mut(&mut self) -> &mut dyn Any { self }
 
     fn report_reward(
         &self,

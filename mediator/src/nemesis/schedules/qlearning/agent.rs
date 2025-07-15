@@ -1,7 +1,15 @@
+use std::{fs, path::Path, any::Any};
+use serde::{Deserialize, Serialize};
 use antidote::RwLock;
 
 use hashbrown::HashMap;
 use nalgebra::DVector;
+
+const QTABLE_DIR: &str = "/qtable";
+const QTABLE_FILE: &str = "/qtable/qtable.json";
+
+#[derive(Serialize, Deserialize)]
+struct SerializableQTable(HashMap<StateId, Vec<f64>>);
 
 use crate::{
     feedback::{
@@ -70,25 +78,56 @@ pub struct QLearningScheduler {
 
 impl QLearningScheduler {
     pub fn new(schedule_length: usize, num_actions: usize) -> Self {
-        let _step_state: Box<dyn StateManager> = Box::new(ScheduleStepState::new(schedule_length));
-        let summary_state: Box<dyn StateManager> = Box::new(SummaryState::new());
-        let state_manager = RwLock::new(summary_state);
-
+        let state_manager: Box<dyn StateManager> = Box::new(SummaryState::new());
         let softmax = SoftmaxPolicy::new(DEFAULT_TEMPERATURE, num_actions);
         let action_policy = Box::new(softmax);
 
-        // TODO: Seed the Q-table by sampling from the generator?
+        // Load existing Q-table if it exists
+        let q_table = if Path::new(QTABLE_FILE).exists() {
+            let qtable_str = fs::read_to_string(QTABLE_FILE).expect("Failed to read qtable.json");
+            let loaded_qtable: SerializableQTable = serde_json::from_str(&qtable_str)
+                .expect("Failed to parse qtable.json");
+
+            RwLock::new(
+                loaded_qtable
+                    .0
+                    .into_iter()
+                    .map(|(state_id, vec)| (state_id, DVector::from_vec(vec)))
+                    .collect(),
+            )
+        } else {
+            RwLock::new(HashMap::new())
+        };
+
         Self {
             my_id: SchedulerIdentifier::QLearning,
             run_length: schedule_length,
             num_actions,
-            q_table: RwLock::new(HashMap::new()),
+            q_table,
             hit_counts: RwLock::new(HashMap::new()),
             alpha: DEFAULT_LEARNING_RATE,
             gamma: DEFAULT_DISCOUNT_FACTOR,
-            state_manager,
+            state_manager: RwLock::new(state_manager),
             action_policy,
         }
+    }
+
+    pub fn save_qtable(&self) {
+        fs::create_dir_all(QTABLE_DIR).expect("Failed to create qtable directory");
+
+        let q_table = self.q_table.read();
+
+        let serializable_qtable: SerializableQTable = SerializableQTable(
+            q_table
+                .iter()
+                .map(|(state_id, vec)| (*state_id, vec.iter().cloned().collect::<Vec<_>>()))
+                .collect(),
+        );
+
+        let qtable_str = serde_json::to_string(&serializable_qtable)
+            .expect("Failed to serialize qtable");
+
+        fs::write(QTABLE_FILE, qtable_str).expect("Failed to write qtable.json");
     }
 
     /// Request all rewards for actions in the current schedule that
@@ -200,6 +239,13 @@ impl DiscreteStepScheduler for QLearningScheduler {
         action
     }
 
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn Any {
+        self
+    }
+
     fn report_reward(
         &self,
         reward_entry: &RewardEntry,
@@ -302,6 +348,7 @@ impl DiscreteStepScheduler for QLearningScheduler {
     }
 
     fn execution_ended(&self) {
-        // Nothing to do.
+        self.save_qtable();
+        log::info!("[QLEARNING] Saved Q-table at end of execution.");
     }
 }
