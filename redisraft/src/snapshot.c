@@ -269,7 +269,8 @@ RRStatus finalizeSnapshot(RedisRaftCtx *rr, SnapshotResult *sr)
 
     char snapshot_index_s[4];
     sprintf(snapshot_index_s, "%lu", (long) raft_get_snapshot_last_idx(rr->raft));
-    LOG_NOTICE("Event: UpdateSnapshot(%d, %s)", raft_get_nodeid(rr->raft), snapshot_index_s);
+    LOG_NOTICE("%sUpdateSnapshot(%d, %s)", rr_event_prefix(raft_get_nodeid(rr->raft)), raft_get_nodeid(rr->raft), snapshot_index_s);
+    log_state_info(rr);
 
     LOG_NOTICE("Snapshot has been completed (snapshot idx=%lu).",
                raft_get_snapshot_last_idx(rr->raft));

@@ -1,4 +1,4 @@
-version: '3.7'
+# version: '3.7'
 
 x-node:
   &default-node
@@ -31,7 +31,6 @@ x-node:
 
 volumes:
   jepsen-shared:
-  redis-logs:
 
 secrets:
   authorized_keys:
@@ -75,8 +74,6 @@ services:
   n1:
     << : *default-node
     container_name: jepsen-n1
-    # volumes:
-    #   - redis-logs:/opt/redis-log
     hostname: n1
     networks:
       jepsen:
@@ -87,8 +84,6 @@ services:
   n2:
     << : *default-node
     container_name: jepsen-n2
-    # volumes:
-    #   - redis-logs:/opt/redis-log
     hostname: n2
     networks:
       jepsen:
@@ -100,8 +95,6 @@ services:
   n3:
     << : *default-node
     container_name: jepsen-n3
-    # volumes:
-    #   - redis-logs:/opt/redis-log
     hostname: n3
     networks:
       jepsen:

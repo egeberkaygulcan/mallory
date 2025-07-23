@@ -1,4 +1,3 @@
-use std::any::Any;
 use rand::Rng;
 
 use crate::{
@@ -115,9 +114,6 @@ impl DiscreteStepScheduler for NoopScheduler {
         );
         return action;
     }
-
-    fn as_any(&self) -> &dyn Any { self }
-    fn as_any_mut(&mut self) -> &mut dyn Any { self }
 
     fn report_reward(
         &self,

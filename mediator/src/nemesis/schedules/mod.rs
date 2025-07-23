@@ -5,7 +5,6 @@ pub mod qlearning;
 use std::{
     fmt,
     sync::atomic::{AtomicUsize, Ordering},
-    any::Any
 };
 
 use antidote::RwLock;
@@ -345,14 +344,6 @@ pub struct ScheduleManager {
 }
 
 impl ScheduleManager {
-    pub fn save_qtable_if_exists(&self) {
-        for sched in &self.schedulers {
-            if let Some(q_sched) = sched.as_any().downcast_ref::<QLearningScheduler>() {
-                q_sched.save_qtable();
-            }
-        }
-    }
-
     pub fn new(
         schedule_duration_ms: u64,
         schedule_interval_ms: u64,
@@ -626,7 +617,4 @@ pub trait DiscreteStepScheduler: Send + Sync {
     fn notify_schedule_end(&self, past_schedule: &ConcreteSchedule, history: &History);
 
     fn execution_ended(&self);
-
-    fn as_any(&self) -> &dyn Any;
-    fn as_any_mut(&mut self) -> &mut dyn Any;
 }

@@ -3,3 +3,4 @@ mediator/target
 mediator/Cargo.lock
 mediator/out.txt
 docker/out.txt
+tests/scripts

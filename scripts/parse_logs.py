@@ -163,6 +163,9 @@ def translate_to_int(val):
 def map_old_to_new(old_events):
     new_data = []
 
+    # This flag is used to ignore the first timeout event in the old format as it happens after the BecomeLeader event
+    first_timeout_ignored = False
+
     # We'll track client requests and messages to generate consistent IDs or indexes
     client_request_count = 0
     client_command_to_request_id = {}
@@ -173,6 +176,7 @@ def map_old_to_new(old_events):
         event = e["parsed_event"]
         name = event["event_name"]
         node = int(e["node"])
+
         if name == "ClientRequest" or name == "MembershipChange" or name == "Timeout":
             node_id = event["params"]["node_id"]
             if node_id not in node_map:
@@ -203,7 +207,13 @@ def map_old_to_new(old_events):
         name = evt["event_name"]
         params = evt["params"]
         node = int(entry["node"])
-        new_entry = {"Name": "", "Params": {}, "Reset": False}
+        timestamp = entry["timestamp"]
+        new_entry = {"Name": "", "Params": {}, "Reset": False, "Timestamp": timestamp}
+
+        # IGNORE the first Timeout completely:
+        if name == "Timeout" and not first_timeout_ignored:
+            first_timeout_ignored = True
+            continue
 
         if name == "MembershipChange":
             if params["node_id"] not in node_map:

@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # ./execute_all.sh 2 35 /host/tests/scripts/logs
-# ./execute_all.sh 14400 3 5 /host/tests/scripts/logs event
+# cd /host/tests/mallory/scripts && ./execute_all.sh 1 28800 29400 /host/tests/scripts/logs event
 # /host/tests/mallory/scripts/execute_all.sh 1 65 35 /host/tests/scripts/logs event
-
+# cd /host/tests/mallory/scripts && ./execute_all.sh 1 10 60 /host/tests/scripts/logs event
 # Get input parameters
 exec_num=$1         # The number of executions
 run_time=$2         # The time limit for each execution(in seconds)
@@ -47,7 +47,8 @@ rm -rf "$log_dir"
 mkdir -p "$log_dir"
 
 # Build the mediator
-cd /host/mediator && apt-get install musl-tools -y && rustup target add x86_64-unknown-linux-musl && RUSTFLAGS="-C target-cpu=generic" cargo build --release --target=x86_64-unknown-linux-musl
+cd /host/mediator && apt-get install musl-tools -y && rustup target add x86_64-unknown-linux-musl && RUSTFLAGS="-C target-cpu=generic" cargo build --release --target=x86_64-unknown-linux-musl # && ./target/x86_64-unknown-linux-musl/release/mediator qlearning event_history 0.7
+# cd /host/tests/mallory/redisraft && lein run test --workload append --nemesis all --follower-proxy --time-limit 60 --test-count 1 --nodes-file ~/nodes --key-count 2 --max-writes-per-key 2 --rate 2
 
 # Traverse the subjects
 for ((subject_idx = 0; subject_idx < "${#subjects[@]}"; subject_idx++)); do
@@ -67,7 +68,7 @@ for ((subject_idx = 0; subject_idx < "${#subjects[@]}"; subject_idx++)); do
             
             cd /host/mediator && timeout "$timeout" ./target/x86_64-unknown-linux-musl/release/mediator "$schedule" "$feedback" 0.7 &
             # Wait for the mediator to start
-            sleep 20
+            sleep 1
 
             # Run subjects
             # If the subject is dqlite
@@ -78,6 +79,7 @@ for ((subject_idx = 0; subject_idx < "${#subjects[@]}"; subject_idx++)); do
                 cd /host/tests/mallory/"$subject" && lein run test --workload wr-register --time-limit "$run_time" --test-count 1
             # If the subject is redisraft
             elif [ "$subject" = "redisraft" ]; then
+            # cd /host/tests/mallory/redisraft && lein run test --workload append --nemesis all --follower-proxy --time-limit 10 --test-count 1 --nodes-file ~/nodes --key-count 5 --max-writes-per-key 1 --rate 2
                 cd /host/tests/mallory/"$subject" && lein run test --workload append --nemesis all --follower-proxy --time-limit "$run_time" --test-count 1 --nodes-file ~/nodes
             # If the subject is scylladb
             elif [ "$subject" = "scylladb" ]; then
@@ -97,7 +99,7 @@ for ((subject_idx = 0; subject_idx < "${#subjects[@]}"; subject_idx++)); do
             mv /tmp/events.log "$subject_log_dir"/"$subject"_"$fuzzer"_events_"$i".log
 
             # Sleep for half hour to recover service
-            sleep 10
+            # sleep 2
         done
     done
 

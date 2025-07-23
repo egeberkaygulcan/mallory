@@ -816,8 +816,9 @@ static void handleRequestVoteResponse(redisAsyncContext *c, void *r, void *privd
 
     char *serialized_msg;
     if (serializeRVResp(&response, &serialized_msg) == 0) {
-        LOG_NOTICE("Event: MessageReceive(request_vote_resp,%d,%d);%s",
-            raft_node_get_id(raft_node), raft_get_nodeid(rr->raft),serialized_msg);
+        LOG_NOTICE("%sMessageReceive(request_vote_resp,%d,%d);%s",
+            rr_event_prefix(raft_node_get_id(rr->raft)), raft_node_get_id(raft_node), raft_get_nodeid(rr->raft), serialized_msg);
+        log_state_info(rr);
     }
     
     int ret;
@@ -841,10 +842,8 @@ static int raftSendRequestVote(raft_server_t *raft, void *user_data,
 
     char *serialized_msg;
     if (serializeRVReq(msg, &serialized_msg) == 0) {
-        LOG_NOTICE("Event: MessageSend(request_vote_req,%d,%d);%s",
-            raft_get_nodeid(raft),
-            raft_node_get_id(raft_node),
-            serialized_msg
+        LOG_NOTICE("%sMessageSend(request_vote_req,%d,%d);%s",
+            rr_event_prefix(raft_get_nodeid(raft)), raft_get_nodeid(raft), raft_node_get_id(raft_node), serialized_msg
         );
     }
 
@@ -907,11 +906,10 @@ static void handleAppendEntriesResponse(redisAsyncContext *c, void *r, void *pri
 
     char *serialized_msg;
     if (serializeAEResp(&response, &serialized_msg) == 0) {
-        LOG_NOTICE("Event: MessageReceive(append_entries_resp,%d,%d);%s",
-            raft_node_get_id(raft_node), 
-            raft_get_nodeid(rr->raft), 
-            serialized_msg
+        LOG_NOTICE("%sMessageReceive(append_entries_resp,%d,%d);%s",
+            rr_event_prefix(raft_node_get_id(rr->raft)), raft_node_get_id(raft_node), raft_get_nodeid(rr->raft), serialized_msg
         );
+        log_state_info(rr);
     }
 
     int ret = raft_recv_appendentries_response(rr->raft, raft_node, &response);
@@ -936,7 +934,7 @@ static int raftSendAppendEntries(raft_server_t *raft, void *user_data,
 
     char *serialized_msg;
     if (serializeAEReq(msg, &serialized_msg) == 0) {
-        LOG_NOTICE("Event: MessageSend(append_entries_req,%d,%d);%s", raft_get_nodeid(raft), raft_node_get_id(raft_node), serialized_msg);
+        LOG_NOTICE("%sMessageSend(append_entries_req,%d,%d);%s", rr_event_prefix(raft_get_nodeid(raft)), raft_get_nodeid(raft), raft_node_get_id(raft_node), serialized_msg);
     }
 
     argv = RedisModule_Alloc(sizeof(argv[0]) * argc);
@@ -1206,7 +1204,8 @@ void raftNotifyMembershipEvent(raft_server_t *raft, void *user_data,
 
             raft_node_set_udata(raft_node, node);
 
-            LOG_NOTICE("Event: MembershipChange(Add, %d)", raft_get_nodeid(rr->raft));
+            LOG_NOTICE("%sMembershipChange(Add, %d)", rr_event_prefix(raft_get_nodeid(rr->raft)), raft_get_nodeid(rr->raft));
+            log_state_info(rr);
 
             break;
 
@@ -1217,7 +1216,8 @@ void raftNotifyMembershipEvent(raft_server_t *raft, void *user_data,
                 raft_node_set_udata(raft_node, NULL);
             }
 
-            LOG_NOTICE("Event: MembershipChange(Remove, %d)", raft_get_nodeid(rr->raft));
+            LOG_NOTICE("%sMembershipChange(Remove, %d)", rr_event_prefix(raft_get_nodeid(rr->raft)), raft_get_nodeid(rr->raft));
+            log_state_info(rr);
             break;
 
         default:
@@ -1268,6 +1268,7 @@ static void raftNotifyTransferEvent(raft_server_t *raft, void *user_data, raft_l
 
 static void raftNotifyStateEvent(raft_server_t *raft, void *user_data, raft_state_e state)
 {
+    RedisRaftCtx *rr = (RedisRaftCtx *)user_data;
     switch (state) {
         case RAFT_STATE_FOLLOWER:
             LOG_NOTICE("State change: Node is now a follower, term %ld",
@@ -1281,13 +1282,15 @@ static void raftNotifyStateEvent(raft_server_t *raft, void *user_data, raft_stat
             LOG_NOTICE("State change: Node is now a candidate, term %ld",
                        raft_get_current_term(raft));
 
-            LOG_NOTICE("Event: Timeout(%d)", raft_get_nodeid(raft));
+            LOG_NOTICE("%sTimeout(%d)", rr_event_prefix(raft_get_nodeid(raft)), raft_get_nodeid(raft));
+            log_state_info(rr);
             break;
         case RAFT_STATE_LEADER:
             LOG_NOTICE("State change: Node is now a leader, term %ld",
                        raft_get_current_term(raft));
 
-            LOG_NOTICE("Event: BecomeLeader(%d,%ld)", raft_get_nodeid(raft), raft_get_current_term(raft));
+            LOG_NOTICE("%sEvent: BecomeLeader(%d,%ld)", rr_event_prefix(raft_get_nodeid(raft)), raft_get_nodeid(raft), raft_get_current_term(raft));
+            log_state_info(rr);
             break;
         default:
             break;
@@ -1694,7 +1697,8 @@ void RaftLibraryInit(RedisRaftCtx *rr, bool cluster_init)
             PANIC("Failed to init raft library");
         }
 
-        LOG_NOTICE("Event: Timeout(%d)", raft_get_nodeid(rr->raft));
+        LOG_NOTICE("%sEvent: Timeout(%d)", rr_event_prefix(raft_get_nodeid(rr->raft)), raft_get_nodeid(rr->raft));
+        log_state_info(rr);
 
         RaftCfgChange cfg = {
             .id = rr->config.id,

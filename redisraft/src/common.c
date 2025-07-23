@@ -5,9 +5,110 @@
  */
 
 #include "redisraft.h"
+#include "raft.h"
+#include "raft_private.h"
+#include <inttypes.h>
 
 #include <string.h>
 #include <strings.h>
+
+#include "raft.h"
+#include "raft_private.h"
+#include <inttypes.h>
+#include <time.h>
+/* ----------------------------------------------------------------
+ * log_state_info()
+ *
+ * Emits (when leader):
+ * [STATE][1][1626652930123456789] - {"term":42,
+ *            "state":"leader",
+ *            "snapshotIndex":1234,
+ *            "logIndex":5678,
+ *            "commitIndex":5670,
+ *            "nextIndex":{"1":100,"2":100,"3":100},
+ *            "matchIndex":{"1":95,"2":90,"3":100}}
+ *
+ * Emits (when not leader):
+ * [STATE][1][1626652930123456789] - {"term":42,
+ *            "state":"follower",
+ *            "snapshotIndex":1234,
+ *            "logIndex":56781,
+ *            "commitIndex":5670,
+ *            "nextIndex":{},
+ *            "matchIndex":{}}
+ * ---------------------------------------------------------------- */
+void log_state_info(RedisRaftCtx *rr) {
+    /* 1) Grab current time in ns */
+    struct timespec ts;
+    clock_gettime(CLOCK_REALTIME, &ts);
+    uint64_t now_ns = (uint64_t)ts.tv_sec * 1000000000ULL + (uint64_t)ts.tv_nsec;
+
+    /* 2) Usual Raft state fields */
+    uint64_t term          = raft_get_current_term(rr->raft);
+    int st                 = raft_get_state(rr->raft);
+    const char *st_str;
+    switch (st) {
+    case RAFT_STATE_LEADER:    st_str = "leader";    break;
+    case RAFT_STATE_CANDIDATE: st_str = "candidate"; break;
+    case RAFT_STATE_FOLLOWER:  st_str = "follower";  break;
+    default:                   st_str = "unknown";   break;
+    }
+
+    raft_index_t snap_idx   = rr->snapshot_info.last_applied_idx;
+    raft_index_t last_log_idx = raft_get_current_idx(rr->raft);
+    raft_index_t commit_idx   = raft_get_commit_idx(rr->raft);
+
+    /* 3) Build per-node nextIndex/matchIndex JSON or "{}" */
+    char next_buf[1024], match_buf[1024];
+    if (st == RAFT_STATE_LEADER) {
+        int noff = 0, moff = 0;
+        noff += snprintf(next_buf + noff, sizeof(next_buf) - noff, "{");
+        moff += snprintf(match_buf + moff, sizeof(match_buf) - moff, "{");
+
+        int n_nodes = raft_get_num_nodes(rr->raft);
+        for (int i = 0; i < n_nodes; i++) {
+            raft_node_t *rnode = raft_get_node_from_idx(rr->raft, i);
+            int node_id        = raft_node_get_id(rnode);
+            uint64_t ni        = raft_node_get_next_idx(rnode);
+            uint64_t mi        = raft_node_get_match_idx(rnode);
+            noff += snprintf(next_buf + noff, sizeof(next_buf) - noff,
+                             "\"%d\":%" PRIu64 ",", node_id, ni);
+            moff += snprintf(match_buf + moff, sizeof(match_buf) - moff,
+                             "\"%d\":%" PRIu64 ",", node_id, mi);
+        }
+        if (noff > 1) next_buf[noff - 1] = '}';
+        else          snprintf(next_buf, sizeof(next_buf), "{}");
+        if (moff > 1) match_buf[moff - 1] = '}';
+        else          snprintf(match_buf, sizeof(match_buf), "{}");
+    } else {
+        snprintf(next_buf, sizeof(next_buf), "{}");
+        snprintf(match_buf, sizeof(match_buf), "{}");
+    }
+
+    /* 4) Our own node ID */
+    int self_id = raft_get_nodeid(rr->raft);
+
+    /* 5) Emit with [STATE][ID][TIMESTAMP_NS] prefix */
+    LOG_NOTICE(
+        "[STATE][%d][%" PRIu64 "] - {"
+          "\"term\":%" PRIu64
+        ", \"state\":\"%s\""
+        ", \"snapshotIndex\":%" PRIu64
+        ", \"logIndex\":%" PRIu64
+        ", \"commitIndex\":%" PRIu64
+        ", \"nextIndex\":%s"
+        ", \"matchIndex\":%s"
+        "}",
+        self_id, now_ns,
+        term, st_str,
+        (uint64_t)snap_idx,
+        (uint64_t)last_log_idx,
+        (uint64_t)commit_idx,
+        next_buf,
+        match_buf
+    );
+}
+
 
 int redis_raft_in_rm_call = 0;
 
@@ -292,7 +393,8 @@ int RedisRaftRecvEntry(RedisRaftCtx *rr, raft_entry_t *entry, RaftReq *req)
         char *entry_data = NULL;
         entry_data = malloc(base64EncodeLen(entry->data_len));
         base64Encode(entry_data, entry->data, entry->data_len);
-        LOG_NOTICE("Event: ClientRequest(%d, %s)", raft_get_nodeid(rr->raft), entry_data);
+        LOG_NOTICE("%sClientRequest(%d, %s)", rr_event_prefix(raft_get_nodeid(rr->raft)), raft_get_nodeid(rr->raft), entry_data);
+        log_state_info(rr);
         free(entry_data);
     }
 

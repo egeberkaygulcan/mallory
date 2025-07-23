@@ -32,6 +32,8 @@
 #include "common/sc_list.h"
 #include "hiredis/async.h"
 
+#include <inttypes.h>
+
 #define UNUSED(x) ((void) (x))
 
 /* Disable GNU attributes for non-GNU compilers */
@@ -48,6 +50,25 @@
 #endif
 
 /* --------------- Forward declarations -------------- */
+struct RedisRaftCtx;
+void log_state_info(struct RedisRaftCtx *rr);
+
+/* Return current time in nanoseconds since the epoch */
+static inline uint64_t rr_now_ns(void) {
+    struct timespec _ts;
+    clock_gettime(CLOCK_REALTIME, &_ts);
+    return (uint64_t)_ts.tv_sec * 1000000000ULL + (uint64_t)_ts.tv_nsec;
+}
+
+/* Thread‐local buffer for our “[EVENT][<node>][<nanos>] - ” prefix */
+static inline const char *rr_event_prefix(int node_id) {
+    static __thread char _buf[64];
+    uint64_t _now = rr_now_ns();
+    snprintf(_buf, sizeof(_buf),
+             "[EVENT][%d][%" PRIu64 "] - ",
+             node_id, _now);
+    return _buf;
+}
 
 struct RaftReq;
 struct EntryCache;

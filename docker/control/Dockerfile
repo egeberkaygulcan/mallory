@@ -1,96 +1,79 @@
 FROM debian:bullseye
-
-# Disable interactive prompts and speed up apt
 ENV DEBIAN_FRONTEND=noninteractive
+ENV LEIN_ROOT true
 
-# Retry apt downloads and disable language packs
-RUN echo 'APT::Acquire::Retries "3";' > /etc/apt/apt.conf.d/80-retries \
- && echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/99nolang
+#
+# Jepsen dependencies and other dependencies
+#
+RUN apt-get -y -q update
+RUN apt-get install -qy openjdk-11-jdk-headless \
+    libjna-java \
+    vim \
+    emacs \
+    git \
+    htop \
+    screen \
+    pssh \
+    curl \
+    wget \
+    gnuplot \
+    graphviz \
+    dos2unix \
+    iptables traceroute netcat nmap tshark tcpdump net-tools procps\
+    build-essential
 
-# Use single RUN for update + install; include --fix-missing and clean up lists
-RUN apt-get update -y && \
-    apt-get install -qy --fix-missing --no-install-recommends \
-      openjdk-11-jdk-headless \
-      libjna-java \
-      vim \
-      emacs \
-      git \
-      htop \
-      screen \
-      pssh \
-      curl \
-      wget \
-      gnuplot \
-      graphviz \
-      dos2unix \
-      iptables \
-      traceroute \
-      netcat \
-      nmap \
-      tshark \
-      tcpdump \
-      net-tools \
-      procps \
-      build-essential musl-tools \
- && rm -rf /var/lib/apt/lists/*
+# install TiKV
+RUN apt-get install -qy libssl-dev cmake
 
-# Additional dependencies for TiKV
-RUN apt-get update -y && \
-    apt-get install -qy --no-install-recommends \
-      libssl-dev \
-      cmake \
- && rm -rf /var/lib/apt/lists/*
+# This is needed for setting up routing
+RUN update-alternatives --set iptables /usr/sbin/iptables-legacy
+RUN update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
 
-# Force legacy iptables
-RUN update-alternatives --set iptables /usr/sbin/iptables-legacy \
- && update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+# The link is unaccessiable sometimes. So we install lein using apt
+# RUN wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein && \
+#     mv lein /usr/bin && \
+#     chmod +x /usr/bin/lein && \
+#     lein self-install
+RUN apt install -y leiningen
 
-# Install Leiningen from apt (less flaky than upstream script)
-RUN apt-get update -y && \
-    apt-get install -qy --no-install-recommends leiningen \
- && rm -rf /var/lib/apt/lists/*
+# Configure our own DNS server
+# (I couldn't figure out how to add entries to Docker's built-in one)
+# dnsmasq automatically reads from /etc/hosts to set up DNS entries
+# see: https://somoit.net/linux/configure-simple-dns-server
+RUN apt-get install -y dnsmasq dnsutils && systemctl enable dnsmasq
 
-# Configure DNS server
-RUN apt-get update -y && \
-    apt-get install -qy --no-install-recommends dnsmasq dnsutils \
-    && systemctl enable dnsmasq \
- && rm -rf /var/lib/apt/lists/*
-
-# Install Rust toolchain non-interactively
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y \
- && echo 'source $HOME/.cargo/env' >> /etc/profile.d/cargo.sh
+# Install Rust
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > /tmp/rustup-init.sh && \
+    chmod +x /tmp/rustup-init.sh && \
+    /tmp/rustup-init.sh -y
+RUN echo 'source $HOME/.cargo/env' >> $HOME/.bashrc
 ENV PATH="/root/.cargo/bin:${PATH}"
 
-# Python & analytics
-RUN apt-get update -y && \
-    apt-get install -qy --no-install-recommends python3 python3-pip silversearcher-ag \
- && rm -rf /var/lib/apt/lists/*
-RUN pip3 install --no-cache-dir --upgrade pip pandas matplotlib
+# For data analysis
+RUN apt-get update -qy
+RUN apt-get install -qy python3 python3-pip silversearcher-ag
+RUN pip3 install --upgrade pip
+RUN pip3 install pandas matplotlib
 
-# Clone and build Passive Observer Jepsen
-RUN git clone https://github.com/dranov/jepsen.git /jepsen-passive && \
-    cd /jepsen-passive && \
-    git checkout passive-observation && \
-    cd jepsen && \
-    lein install
+# Install Passive Observer Jepsen
+RUN cd / && git clone https://github.com/dranov/jepsen.git jepsen-passive && echo 'ca633da'
+RUN cd /jepsen-passive && git checkout passive-observation && cd jepsen && lein install
 
-# Pre-download Leiningen deps if project.clj is mounted
+# without --dev flag up.sh copies jepsen to these subfolders
+# with --dev flag they are empty until mounted
+
+# # we don't want to download the dependencies on every run
 COPY jepsen/jepsen/project.clj /jepsen/jepsen/project.clj
-RUN if [ -f /jepsen/jepsen/project.clj ]; then \
-      cd /jepsen/jepsen && lein deps; \
-    fi
+RUN if [ -f /jepsen/jepsen/project.clj ]; then cd /jepsen/jepsen && lein deps; fi
 
-# Copy full Jepsen and install
+# actually install
 COPY jepsen/jepsen /jepsen/jepsen/
-RUN if [ -f /jepsen/jepsen/project.clj ]; then \
-      cd /jepsen/jepsen && lein install; \
-    fi
+RUN if [ -f /jepsen/jepsen/project.clj ]; then cd /jepsen/jepsen && lein install; fi
 COPY jepsen /jepsen/
 
-# Bash environment and entrypoint
-ADD bashrc /root/.bashrc
-ADD init.sh /init.sh
+ADD ./bashrc /root/.bashrc
+ADD ./init.sh /init.sh
 RUN dos2unix /init.sh /root/.bashrc \
- && chmod +x /init.sh
+    && chmod +x /init.sh
 
-CMD ["/init.sh"]
+CMD /init.sh
