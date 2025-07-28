@@ -1,7 +1,6 @@
 # See https://github.com/jgoerzen/docker-debian-base
 # See https://hub.docker.com/r/jgoerzen/debian-base-standard
-FROM docker.io/jgoerzen/debian-base-standard:bullseye
-
+FROM jgoerzen/debian-base-standard:bullseye
 # Disable interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -9,6 +8,11 @@ ENV DEBIAN_FRONTEND=noninteractive
 # present in this image, and if you create it, exim crashes... do we actually NEED this? Maybe not...
 #RUN mkdir /usr/sbin/policy-rc.d
 #RUN run-parts --exit-on-error --verbose /usr/local/debian-base-setup
+
+RUN sed -i '/bullseye-backports/ s/^/#/' \
+      /etc/apt/sources.list \
+      /etc/apt/sources.list.d/*.list \
+    || true
 
 # Basic system stuff
 RUN apt-get update
@@ -83,10 +87,29 @@ RUN apt-get install -y valgrind tmux gdb libuv1-dev liblz4-dev autoconf git\
 WORKDIR /opt
 ENV CXX=clang++
 ENV CC=clang
-RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
-RUN echo 'source $HOME/.cargo/env' >> $HOME/.bashrc
-ENV PATH="/root/.cargo/bin:${PATH}"
+# RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
+# RUN echo 'source $HOME/.cargo/env' >> $HOME/.bashrc
+# ENV PATH="/root/.cargo/bin:${PATH}"
+# RUN rustup default stable
+
+# Make sure we're still root
+USER root
+
+# 1) Install curl/ca‑certs
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends curl ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
+
+# 2) Install rustup into /root
+RUN curl https://sh.rustup.rs -sSf \
+  | sh -s -- -y --no-modify-path
+
+# 3) Expose cargo/rustup
+ENV PATH=/root/.cargo/bin:${PATH}
+
+# 4) Set default
 RUN rustup default stable
+
 # Hack: update crates.io now so it's not updated on every build
 RUN cargo install empty-library || true
 COPY jepsen/instrumentor instrumentor
@@ -330,4 +353,5 @@ RUN update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
 
 # end coverage
 
-CMD ["/usr/local/bin/boot-debian-base"]
+ENTRYPOINT ["/usr/local/bin/boot-debian-base"]
+CMD ["bash"]
